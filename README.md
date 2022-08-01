@@ -53,7 +53,7 @@
 
 ## 🌈 서문
 
-> For some time now I’ve been floating the idea of writing a book about category theory that would be targeted at programmers. Mind you, not computer scientists but programmers — engineers rather than scientists. I know this sounds crazy and I am properly scared. I can’t deny that there is a huge gap between science and engineering because I have worked on both sides of the divide. But I’ve always felt a very strong compulsion to explain things. I have tremendous admiration for Richard Feynman who was the master of simple explanations. I know I’m no Feynman, but I will try my best. I’m starting by publishing this preface — which is supposed to motivate the reader to learn category theory — in hopes of starting a discussion and soliciting feedback.
+> 한동안 저는 프로그래머들을 대상으로 하는 범주론에 관한 책을 써야겠다고 생각하고 있었습니다. 컴퓨터 과학자가 아니라 프로그래머, 과학자가 아니라 엔지니어라는 점을 명심해야 합니다. 이상하게 들릴 수 있지만 저 또한 두렵습니다. 저는 과학과 엔지니어링 양쪽에서 일을 해왔기 때문에 사이에 큰 격차가 있다는 것을 부정할 수 없습니다. 그러나 저는 항상 범주론을 설명하고 싶은 강한 강박을 느껴왔습니다. 저는 단순한 설명의 대가였던 리처드 파인먼(Richard Feynman)에게 엄청난 존경을 표합니다. 저는 파인먼이 아니라는 것을 알고 있지만, 최선을 다할 것입니다. 저는 토론을 시작하고 피드백을 요청하기 위해 독자가 범주론을 배우도록 동기를 부여하기 위해 이 서문을 출판하는 것으로 시작하려 합니다.
 
 I will attempt, in the space of a few paragraphs, to convince you that this book is written for you, and whatever objections you might have to learning one of the most abstract branches of mathematics in your “copious spare time” are totally unfounded.
 
