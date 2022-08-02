@@ -11,11 +11,10 @@ A category is an embarrassingly simple concept. A category consists of objects a
       <img src='../images/part-1/img_1330.jpeg' height='200' />
     </div>
     <figcaption>
-      <sub>
-        <sup>
-          In a category, if there is an arrow going from A to B and an arrow going from B to C then there must also be a direct arrow from A to C that is their composition. This diagram is not a full category because it’s missing identity morphisms (see later).
-        </sup>
-      </sub>
+      In a category, if there is an arrow going from A to B and an arrow going<br/>
+      from B to C then there must also be a direct arrow from A to C that is their<br/>
+      composition. This diagram is not a full category because it’s missing<br/>
+      identity morphisms (see later).
     </figcaption>
   </figure>
 </div>
@@ -175,4 +174,4 @@ Category theory is extreme in the sense that it actively discourages us from loo
 5. Is Facebook a category, with people as objects and friendships as morphisms?
 6. When is a directed graph a category?
 
-[[⬅ 뒤로가기]](https://github.com/alstn2468/category-theory-for-programmers) / [[다음으로 ➡]](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/2-types-and-functions.md)
+[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers#%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%B2%94%EC%A3%BC%EB%A1%A0) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/2-types-and-functions.md)

@@ -89,14 +89,12 @@
       <img src='./images/beauvais-cathedral.jpeg' height='300' />
     </div>
     <figcaption>
-      <sub>
-        <sup>
-          보베 대성당 붕괴를 막는 임시 조치
-        </sup>
-      </sub>
+      보베 대성당 붕괴를 막는 임시 조치
     </figcaption>
   </figure>
 </div>
+
+[다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md#%EB%B2%94%EC%A3%BC-%EC%A1%B0%ED%95%A9%EC%9D%98-%EB%B3%B8%EC%A7%88)
 
 ---
 
