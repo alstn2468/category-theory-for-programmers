@@ -9,7 +9,7 @@
 
 ### Part 1.
 
-1. [Category: The Essence of Composition](part-1/1-category-the-essence-of-composition.md)
+1. [범주: 조합의 본질](part-1/1-category-the-essence-of-composition.md)
 2. [Types and Functions](part-1/2-types-and-functions.md)
 3. [Categories Great and Small](part-1/3-categories-great-and-small.md)
 4. [Kleisli Categories](part-1/4-kleisli-categories.md)
