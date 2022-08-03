@@ -1,8 +1,8 @@
-# 범주: 조합의 본질
+# 범주: 합성의 본질
 
-> I was overwhelmed by the positive response to my previous post, the Preface to Category Theory for Programmers. At the same time, it scared the heck out of me because I realized what high expectations people were placing in me. I’m afraid that no matter what I’ll write, a lot of readers will be disappointed. Some readers would like the book to be more practical, others more abstract. Some hate C++ and would like all examples in Haskell, others hate Haskell and demand examples in Java. And I know that the pace of exposition will be too slow for some and too fast for others. This will not be the perfect book. It will be a compromise. All I can hope is that I’ll be able to share some of my aha! moments with my readers. Let’s start with the basics.
+> 저는 제 이전 게시물인 프로그래머를 위한 범주론의 서문에 대한 긍정적인 반응에 압도되었습니다. 동시에 사람들이 저에게 얼마나 큰 기대를 하고 있는지를 알았기 때문에 저를 두렵게 했습니다. 제가 어떤 글을 써도 독자들이 실망할까 봐 두렵습니다. 어떤 독자는 이 책이 실용적이기를 원하고 어떤 독자는 더 추상적이기를 원합니다. 어떤 사람은 C++를 싫어하고 Haskell로 된 모든 예제를 원하고, 다른 사람은 Haskell을 싫어하고 Java 예제를 요구할 수 있습니다. 그리고 저는 설명을 하는 속도가 누군가에게는 너무 느리고 누군가에게는 너무 빠를 것이라는 것을 알고 있습니다. 이것은 완벽한 책은 아닙니다. 이것으로 타협이 될 것입니다. 제가 바랄 수 있는 것은 제가 깨달은 것 일부를 공유할 수 있다는 것뿐입니다. 기초부터 시작하겠습니다.
 
-A category is an embarrassingly simple concept. A category consists of objects and arrows that go between them. That’s why categories are so easy to represent pictorially. An object can be drawn as a circle or a point, and an arrow… is an arrow. (Just for variety, I will occasionally draw objects as piggies and arrows as fireworks.) But the essence of a category is composition. Or, if you prefer, the essence of composition is a category. Arrows compose, so if you have an arrow from object A to object B, and another arrow from object B to object C, then there must be an arrow — their composition — that goes from A to C.
+범주는 당황스러울 정도로 단순한 개념입니다. 범주는 객체와 객체 사이를 이동하는 화살표로 구성됩니다. 그래서 범주는 그림으로 표현하기 쉽습니다. 객체는 원이나 점으로 그릴 수 있으며, 화살표는 화살표입니다. (다양성을 위해 가끔 물건을 돼지처럼, 화살을 불꽃처럼 그립니다) 그러나 범주의 본질은 합성입니다. 또는 원하는 경우 합성의 본질은 범주입니다. 화살표 합성이므로 객체 A에서 객체 B로의 화살표와 객체 B에서 객체 C로의 또 다른 화살표가 있는 경우 A에서 C로 가는 화살표(합성)가 있어야 합니다.
 
 
 <div align='center'>
@@ -11,39 +11,38 @@ A category is an embarrassingly simple concept. A category consists of objects a
       <img src='../images/part-1/img_1330.jpeg' height='200' />
     </div>
     <figcaption>
-      In a category, if there is an arrow going from A to B and an arrow going<br/>
-      from B to C then there must also be a direct arrow from A to C that is their<br/>
-      composition. This diagram is not a full category because it’s missing<br/>
-      identity morphisms (see later).
+      범주에서 A에서 B로 가는 화살표와 B에서 C로 가는 화살표가 있으면<br/>
+      A에서 C로 직접 향하는 화살표도 있어야 합니다.<br/>
+      이 다이어그램은 항등 사상(identity morphisms)이 없기 때문에 전체 범주가 아닙니다. (나중에 참조)
     </figcaption>
   </figure>
 </div>
 
-## Arrows as Functions
+## 함수로서의 화살표
 
-Is this already too much abstract nonsense? Do not despair. Let’s talk concretes. Think of arrows, which are also called morphisms, as functions. You have a function f that takes an argument of type A and returns a B. You have another function g that takes a B and returns a C. You can compose them by passing the result of f to g. You have just defined a new function that takes an A and returns a C.
+이것들이 이미 너무 추상적인 넌센스였나요? 절망하지 마세요. 구체적인 이야기를 해보겠습니다. 사상이라고도 하는 화살표를 함수로 생각하세요. 타입 A의 인자를 받아 B를 반환하는 함수 f가 있습니다. B를 인자로 받고 C를 반환하는 또 다른 함수 g가 있습니다. f의 결과를 g에 전달하여 합성할 수 있습니다. A를 받고 C를 반환하는 새로운 함수를 방금 정의했습니다.
 
-In math, such composition is denoted by a small circle between functions: g∘f. Notice the right to left order of composition. For some people this is confusing. You may be familiar with the pipe notation in Unix, as in:
+수학에서 이러한 합성은 함수 사이의 작은 원(g∘f)으로 표현됩니다. 조합의 오른쪽에서 왼쪽 순서에 유의해야 합니다. 어떤 사람들에게는 이것이 혼란스러울 수 있습니다. 아래와 같이 Unix의 파이프 표기법에 익숙할 것입니다.
 
-```
+```shell
 lsof | grep Chrome
 ```
 
-or the chevron >> in F#, which both go from left to right. But in mathematics and in Haskell functions compose right to left. It helps if you read g∘f as “g after f.”
+또는 F#의 갈매기 모양의 >>, 둘 다 왼쪽에서 오른쪽으로 이동합니다. 그러나 수학과 Haskell 함수에서는 오른쪽에서 왼쪽으로 합성합니다. g∘f를 "f 후에 g"로 읽으면 도움이 됩니다.
 
-Let’s make this even more explicit by writing some C code. We have one function f that takes an argument of type A and returns a value of type B:
+C 코드를 작성하여 이것을 더욱 명시적으로 만들어 보겠습니다. A 타입의 인자를 받고 B 타입의 값을 반환하는 함수 f가 하나 있습니다.
 
 ```
 B f(A a);
 ```
 
-and another:
+그리고 B타입의 인자를 받고 C 타입의 값을 반환하는 또 다른 함수가 있습니다.
 
 ```
 C g(B b);
 ```
 
-Their composition is:
+이것들의 합성은 아래와 같습니다.
 
 ```
 C g_after_f(A a)
@@ -52,40 +51,41 @@ C g_after_f(A a)
 }
 ```
 
-Here, again, you see right-to-left composition: `g(f(a));` this time in C.
+여기에서 다시 오른쪽에서 왼쪽으로 구성되는 `g(f(a));`를 C 코드에서 볼 수 있습니다.
 
-I wish I could tell you that there is a template in the C++ Standard Library that takes two functions and returns their composition, but there isn’t one. So let’s try some Haskell for a change. Here’s the declaration of a function from A to B:
+C++ 표준 라이브러리에는 두 개의 함수를 사용하고 합성을 반환하는 템플릿이 있다고 말하고 싶지만 없다는 것을 말하고 싶습니다. 변화를 위해 하스켈로 같은 내용을 작성해 보겠습니다. 여기에 A를 받아 B를 반환하는 함수 선언이 있습니다.
 
 ```
 f :: A -> B
 ```
-Similarly:
+
+비슷하게 B를 받아 C를 반환하는 함수 선언이 있습니다.
 
 ```
 g :: B -> C
 ```
 
-Their composition is:
+이것들의 합성은 아래와 같습니다.
 
 ```
 g . f
 ```
 
-Once you see how simple things are in Haskell, the inability to express straightforward functional concepts in C++ is a little embarrassing. In fact, Haskell will let you use Unicode characters so you can write composition as:
+Haskell이 얼마나 간단한지 알게 되면 C++에서 간단한 함수형 개념을 표현할 수 없다는 것이 조금 당황스러울 수 있습니다. 사실 Haskell은 유니코드 문자를 사용할 수 있게 해주므로 아래와 같이 합성을 작성할 수 있습니다.
 
 ```
 g ∘ f
 ```
 
-You can even use Unicode double colons and arrows:
+유니코드 이중 콜론과 화살표를 사용할 수도 있습니다.
 
 ```
 f ∷ A → B
 ```
 
-So here’s the first Haskell lesson: Double colon means “has the type of…” A function type is created by inserting an arrow between two types. You compose two functions by inserting a period between them (or a Unicode circle).
+그래서 여기 첫 번째 Haskell 수업이 있습니다. 이중 콜론은 "다음 타입을 가짐"을 의미합니다. 함수 타입은 두 타입 사이에 화살표를 삽입하여 생성됩니다. 두 함수 사이에 마침표(또는 유니코드 원)를 삽입해 두 함수를 합성합니다.
 
-## Properties of Composition
+## 합성의 속성
 
 There are two extremely important properties that the composition in any category must satisfy.
 
