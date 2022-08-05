@@ -34,69 +34,70 @@ Haskell에서는 드문 경우를 제외하고 타입 어노테이션은 선택 
 
 ## 타입이란 무엇일까요?
 
-The simplest intuition for types is that they are sets of values. The type `Bool` (remember, concrete types start with a capital letter in Haskell) is a two-element set of `True` and `False`. Type `Char` is a set of all Unicode characters like `'a'` or `'ą'`.
+타입에 대한 가장 단순한 직관은 타입이 값의 집합이라는 것입니다. `Bool` 타입(하스켈에서 구체적인 타입은 대문자로 시작하는 것을 기억하세요)은 `True`와 `False` 두 요소의 집합입니다. `Char` 타입은 `'a'` 또는 `'q'`와 같은 모든 유니코드 문자 집합입니다.
 
-Sets can be finite or infinite. The type of `String`, which is a synonym for a list of `Char`, is an example of an infinite set.
+집합은 유한하거나 무한할 수 있습니다. `Char` 타입의 목록과 동의어는 `String` 타입은 무한 집합의 예시입니다.
 
-When we declare `x` to be an `Integer`:
+`x`를 `Integer`로 선언하는 방법은 아래와 같습니다.
 
 ```haskell
 x :: Integer
 ```
 
-we are saying that it’s an element of the set of integers. `Integer` in Haskell is an infinite set, and it can be used to do arbitrary precision arithmetic. There is also a finite-set `Int` that corresponds to machine type, just like the C++ `int`.
+우리는 이것이 정수 집합의 요소라고 얘기하고 있습니다. Haskell의 `Integer`는 무한집합이며 임의의 정밀한 산술을 수행하는 데에 사용할 수 있습니다. C++의 `int`와 마찬가지로 기계 타입에 해당하는 유한 집합 `Int`도 있습니다.
 
-There are some subtleties that make this identification of types and sets tricky. There are problems with polymorphic functions that involve circular definitions, and with the fact that you can’t have a set of all sets; but as I promised, I won’t be a stickler for math. The great thing is that there is a category of sets, which is called **Set**, and we’ll just work with it. In **Set**, objects are sets and morphisms (arrows) are functions.
+이런 타입 및 집합을 식별하는 것을 까다롭게 하는 몇 가지 미묘한 점이 있습니다. 순환 정의를 포함하는 다형성 함수와 모든 집합의 집합을 가질 수 없다는 사실에는 문제가 있습니다. 하지만 제가 약속했듯 저는 수학을 고집하지 않을 것입니다. 좋은 점은 **Set**이라고 하는 집합 카테고리가 있다는 것입니다. **Set**에서 객체는 집합이고 사상(화살표)은 함수입니다.
 
-**Set** is a very special category, because we can actually peek inside its objects and get a lot of intuitions from doing that. For instance, we know that an empty set has no elements. We know that there are special one-element sets. We know that functions map elements of one set to elements of another set. They can map two elements to one, but not one element to two. We know that an identity function maps each element of a set to itself, and so on. The plan is to gradually forget all this information and instead express all those notions in purely categorical terms, that is in terms of objects and arrows.
+**Set**은 객체 내부를 실제로 들여다보고 많은 직관을 얻을 수 있기 때문에 매우 특별한 범주입니다. 예를 들어 빈 집합에는 요소가 없다는 것을 알고 있습니다. 우리는 특별한 단일 요소 집합이 있다는 것을 알고 있습니다. 우리는 함수가 하나의 집합 요소를 다른 집합에 대응시키는 것을 알고 있습니다. 두 요소를 하나로 대응시킬 수 있지만 하나의 요소를 두 개로 대응시킬 수는 없습니다. 항등함수는 집합의 각 요소를 자기 자신과 대응시키는 식으로 진행되는 것을 알고 있습니다. 계획은 이 모든 정보를 점차 잊어버리고 그 대신 모든 개념을 순수한 범주적 용어, 즉 객체와 화살표로 표현하는 것입니다.
 
-In the ideal world we would just say that Haskell types are sets and Haskell functions are mathematical functions between sets. There is just one little problem: A mathematical function does not execute any code — it just knows the answer. A Haskell function has to calculate the answer. It’s not a problem if the answer can be obtained in a finite number of steps — however big that number might be. But there are some calculations that involve recursion, and those might never terminate. We can’t just ban non-terminating functions from Haskell because distinguishing between terminating and non-terminating functions is undecidable — the famous halting problem. That’s why computer scientists came up with a brilliant idea, or a major hack, depending on your point of view, to extend every type by one more special value called the bottom and denoted by `_|_`, or Unicode ⊥. This “value” corresponds to a non-terminating computation. So a function declared as:
+이상적인 세계에서는 우리는 Haskell 타입은 집합이고 Haskell 함수는 집합 사이의 수학적 함수라고 말할 것입니다. 여기에는 한 가지 작은 문제가 있습니다. 수학 함수는 코드를 실행하지 않고 답만 알고 있습니다. Haskell 함수는 답을 계산해야 합니다. 유한한 수의 단계에서 답을 얻을 수 있다면 문제가 되지 않습니다. 그 수가 매우 클 수 있습니다. 그러나 재귀를 포함하는 일부 계산이 있으며 그 계산은 종료되지 않을 수 있습니다. 종료 함수와 종료되지 않은 함수를 구별하는 것은 불가능하기 때문에 Haskell에서 종료되지 않는 함수를 금지할 수 없습니다. 유명한 정지 문제입니다. 이것이 바로 컴퓨터 과학자들이 여러분의 관점에 따라 `_|_` 또는 유니코드 ⊥로 표현하는 bottom이라고 하는 하나의 특별한 값으로 모든 타입을 확장하는 기발한 아이디어 또는 중요한 해킹을 생각해 낸 이유입니다. 이 "값"은 종료되지 않는 계산에 해당합니다.
 
 ```haskell
 f :: Bool -> Bool
 ```
 
-may return `True`, `False`, or `_|_`; the latter meaning that it would never terminate.
+따라서 위와 같이 선언된 함수는 `True`, `False` 또는 `_|_`을 반환할 수 있습니다. `_|_`는 절대 종료되지 않음을 의미합니다.
 
-Interestingly, once you accept the bottom as part of the type system, it is convenient to treat every runtime error as a bottom, and even allow functions to return the bottom explicitly. The latter is usually done using the expression `undefined`, as in:
+흥미롭게도 bottom을 타입 시스템의 일부로 받아들이면 모든 런타임 오류를 bottom으로 처리하고 함수가 bottom을 명시적으로 반환하도록 허용하는 것이 편리합니다. bottom은 일반적으로 다음과 같이 `undefined` 표현을 사용해 수행됩니다.
 
 ```haskell
 f :: Bool -> Bool
 f x = undefined
 ```
 
-This definition type checks because `undefined` evaluates to bottom, which is a member of any type, including `Bool`. You can even write:
+이 타입 정의는 `undefined`가 `Bool`을 포함한 모든 타입의 구성원인 bottom으로 평가되기 때문에 확인합니다.
 
 ```haskell
 f :: Bool -> Bool
 f = undefined
 ```
 
-(without the `x`) because the bottom is also a member of the type `Bool->Bool`.
+bottom도 `Bool->Bool`의 구성 요소이기 때문에 위와 같이 `x`를 제외하고 작성할 수도 있습니다.
 
-Functions that may return bottom are called partial, as opposed to total functions, which return valid results for every possible argument.
+가능한 모든 인자에 대해 유효한 결과를 반환하는 전체 함수와 달리 bottom을 반환할 수 있는 함수를 부분 함수라고 합니다.
 
-Because of the bottom, you’ll see the category of Haskell types and functions referred to as **Hask** rather than **Set**. From the theoretical point of view, this is the source of never-ending complications, so at this point I will use my butcher’s knife and terminate this line of reasoning. From the pragmatic point of view, it’s okay to ignore non-terminating functions and bottoms, and treat **Hask** as bona fide Set (see Bibliography at the end).
+bottom 때문에 **Set**이 아니라 **Hask**라고 하는 Haskell 타입 및 함수의 범주를 확인할 수 있습니다. 이론적으로 볼 때 이것은 끝없는 고민의 원인이므로 이 시점에서 저는 이 추리의 선을 끊겠습니다. 실용적인 관점에서 볼 때 비종료 함수와 bottom을 무시하고 **Hask**를 진정한 집합으로 취급하는 것은 괜찮습니다. (마지막 참고 문헌을 참조하세요)
 
-## Why Do We Need a Mathematical Model?
+## 수학적 모델이 필요한 이유는 무엇일까요?
 
-As a programmer you are intimately familiar with the syntax and grammar of your programming language. These aspects of the language are usually described using formal notation at the very beginning of the language spec. But the meaning, or semantics, of the language is much harder to describe; it takes many more pages, is rarely formal enough, and almost never complete. Hence the never ending discussions among language lawyers, and a whole cottage industry of books dedicated to the exegesis of the finer points of language standards.
+프로그래머들은 사용하는 프로그래밍 언어의 문법에 아주 익숙합니다. 언어의 이런 측면은 일반적으로 언어 사양의 맨 처음에 형식 표기법을 사용해 설명됩니다. 그러나 언어의 의미 또는 의미론은 설명하기 훨씬 어렵습니다. 그것은 훨씬 더 많은 페이지가 필요하고, 충분히 형식적이지 않으며, 거의 완성되지 않습니다. 따라서 언어 변호사들과 모든 전문 서적 업계 간의 끝없는 토론은 언어 표준의 더 세밀한 부분입니다.
 
-There are formal tools for describing the semantics of a language but, because of their complexity, they are mostly used with simplified academic languages, not real-life programming behemoths. One such tool called operational semantics describes the mechanics of program execution. It defines a formalized idealized interpreter. The semantics of industrial languages, such as C++, is usually described using informal operational reasoning, often in terms of an “abstract machine.”
+언어의 의미론을 설명하기 위한 공식 도구가 있지만 복잡성으로 주로 실제 프로그래밍 거물이 아닌 단순화된 학술 언어와 함께 사용됩니다. 연산 의미론이라고 하는 도구 중 하나는 프로그램 실행 메커니즘을 설명합니다. 이 도구는 형식화된 이상적인 인터프리터를 정의합니다. C++과 같은 산업 언어의 의미는 일반적으로 "추상 기계"라는 용어로 비공식적 연산 추론을 사용하여 설명됩니다.
 
-The problem is that it’s very hard to prove things about programs using operational semantics. To show a property of a program you essentially have to “run it” through the idealized interpreter.
+문제는 연산 의미론을 사용해 프로그램에 대한 것을 증명하는 것이 매우 어렵다는 것입니다. 프로그램의 특징을 표시하려면 본질적으로 이상적인 인터프리터를 통해 "실행"해야 합니다.
 
-It doesn’t matter that programmers never perform formal proofs of correctness. We always “think” that we write correct programs. Nobody sits at the keyboard saying, “Oh, I’ll just throw a few lines of code and see what happens.” We think that the code we write will perform certain actions that will produce desired results. We are usually quite surprised when it doesn’t. That means we do reason about programs we write, and we usually do it by running an interpreter in our heads. It’s just really hard to keep track of all the variables. Computers are good at running programs — humans are not! If we were, we wouldn’t need computers.
+프로그래머가 형식적 정확성 증명을 수행하지 않는 것은 중요하지 않습니다. 우리는 항상 올바른 프로그램을 작성한다고 "생각"합니다. 누구도 키보드 앞에 앉아 "몇 줄의 코드를 던져보고 무슨 일이 일어나는지 볼게요"라고 말하지 않습니다. 우리는 작성하는 코드가 원하는 결과를 생성하는 특정 작업을 수행하겠다고 생각합니다. 우리는 보통 원하는 결과가 생성되지 않으면 상당히 놀랍니다. 즉, 우리가 작성 하는 프로그램에 대해 추론하고 일반적으로 머릿속에서 인터프리터를 실행해 수행합니다. 모든 변수를 추적하는 것은 어렵습니다. 컴퓨터는 프로그램 실행에 능숙합니다. 하지만 인간은 그렇지 않습니다. 인간이 그렇더라면 컴퓨터는 필요하지 않았을 것입니다.
 
-But there is an alternative. It’s called denotational semantics and it’s based on math. In denotational semantics every programing construct is given its mathematical interpretation. With that, if you want to prove a property of a program, you just prove a mathematical theorem. You might think that theorem proving is hard, but the fact is that we humans have been building up mathematical methods for thousands of years, so there is a wealth of accumulated knowledge to tap into. Also, as compared to the kind of theorems that professional mathematicians prove, the problems that we encounter in programming are usually quite simple, if not trivial.
+그러나 대안이 있습니다. 이것을 표기 의미론이라고 하며 수학을 기반으로 합니다. 표기 의미론에서 모든 프로그래밍 합성에는 수학적 해석이 제공됩니다. 이것을 통해 프로그램의 속성을 증명하려면 수학 정리를 증명하면 됩니다. 증명하기 어렵다고 생각할 수 있지만 인간은 수천 년 동안 수학적 방법을 만들어 왔기 때문에 활용할 수 있는 축적된 지식이 풍부합니다. 또한 전문 수학자들이 증명하는 종류의 정리와 비교할 때 프로그래밍에서 우리가 직면한 문제는 사소하지 않더라도 일반적으로 매우 간단합니다.
 
-Consider the definition of a factorial function in Haskell, which is a language quite amenable to denotational semantics:
+표기 의미론에 순응하는 언어인 Haskell에서 팩토리얼을 계산하는 함수 정의는 아래와 같이 작성할 수 있습니다.
 
 ```haskell
 fact n = product [1..n]
 ```
 
-The expression `[1..n]` is a list of integers from 1 to n. The function `product` multiplies all elements of a list. That’s just like a definition of factorial taken from a math text. Compare this with C:
+표현식 `[1..n]`은 1에서 n까지의 정수 목록입니다. `product` 함수는 목록의 모든 요소를 곱합니다. 그것은 수학에서 가져온 팩토리얼의 정의와 같습니다. 아래의 C언어 코드와 비교해 보세요.
+
 
 ```c
 int fact(int n) {
@@ -108,13 +109,13 @@ int fact(int n) {
 }
 ```
 
-Need I say more?
+더 얘기할 필요가 있을까요?
 
-Okay, I’ll be the first to admit that this was a cheap shot! A factorial function has an obvious mathematical denotation. An astute reader might ask: What’s the mathematical model for reading a character from the keyboard or sending a packet across the network? For the longest time that would have been an awkward question leading to a rather convoluted explanation. It seemed like denotational semantics wasn’t the best fit for a considerable number of important tasks that were essential for writing useful programs, and which could be easily tackled by operational semantics. The breakthrough came from category theory. Eugenio Moggi discovered that computational effect can be mapped to monads. This turned out to be an important observation that not only gave denotational semantics a new lease on life and made pure functional programs more usable, but also shed new light on traditional programming. I’ll talk about monads later, when we develop more categorical tools.
+좋습니다. 저는 이게 저렴한 한 방이었다는 것을 먼저 인정할 것입니다. 팩토리얼 함수는 명백한 수학적 표시를 가지고 있습니다. 예리한 독자는 "키보드에서 문자를 읽거나 네트워크를 통해 패킷을 보내는 수학적 모델은 무엇인가요?"와 같이 질문할 수 있습니다. 오랫동안 그것들은 다소 복잡한 설명으로 이어지는 어색한 질문이었을 수 있습니다. 표기 의미론은 유용한 프로그램을 작성하는 데 필수적이며 동작 의미론으로 쉽게 해결할 수 있는 상당수의 중요한 작업에 적합하지 않은 것처럼 보였습니다. 돌파구는 범주론에서 나왔습니다. Eugenio Moggi는 계산 효과가 모나드에 대응될 수 있음을 발견했습니다. 이것은 표기 의미론에 새로운 생명을 부여하고 순수 함수형 프로그램을 더 유용하게 만들 뿐만 아니라 전통적인 프로그래밍에 새로운 빛을 비춰주는 중요한 발견으로 밝혀졌습니다. 나중에 더 많은 범주형 도구를 개발할 때 모나드에 관해 이야기하겠습니다.
 
-One of the important advantages of having a mathematical model for programming is that it’s possible to perform formal proofs of correctness of software. This might not seem so important when you’re writing consumer software, but there are areas of programming where the price of failure may be exorbitant, or where human life is at stake. But even when writing web applications for the health system, you may appreciate the thought that functions and algorithms from the Haskell standard library come with proofs of correctness.
+프로그래밍을 위한 수학적 모델을 갖는 것의 중요한 이점 중 하나는 소프트웨어의 정확성에 대한 공식 증명을 수행할 수 있다는 것입니다. 소비자 소프트웨어를 작성할 때는 이것이 중요하지 않은 것처럼 보일 수 있지만, 실패의 대가가 엄청나거나 인간의 생명이 위태로운 프로그래밍 영역이 있습니다. 그러나 건강 시스템을 위한 웹 애플리케이션을 작성할 때도 Haskell 표준 라이브러리의 함수와 알고리즘이 정확성의 증거와 함께 제공된다는 생각에 감사할 것입니다.
 
-## Pure and Dirty Functions
+## 순수 함수와 비순수 함수
 
 The things we call functions in C++ or any other imperative language, are not the same things mathematicians call functions. A mathematical function is just a mapping of values to values.
 
@@ -124,7 +125,7 @@ Also, calculating the square of a number should not have a side effect of dispen
 
 In programming languages, functions that always produce the same result given the same input and have no side effects are called pure functions. In a pure functional language like Haskell all functions are pure. Because of that, it’s easier to give these languages denotational semantics and model them using category theory. As for other languages, it’s always possible to restrict yourself to a pure subset, or reason about side effects separately. Later we’ll see how monads let us model all kinds of effects using only pure functions. So we really don’t lose anything by restricting ourselves to mathematical functions.
 
-## Examples of Types
+## 타입의 예시
 
 Once you realize that types are sets, you can think of some rather exotic types. For instance, what’s the type corresponding to an empty set? No, it’s not C++ `void`, although this type is called `Void` in Haskell. It’s a type that’s not inhabited by any values. You can define a function that takes `Void`, but you can never call it. To call it, you would have to provide a value of the type `Void`, and there just aren’t any. As for what this function can return, there are no restrictions whatsoever. It can return any type (although it never will, because it can’t be called). In other words it’s a function that’s polymorphic in the return type. Haskellers have a name for it:
 
@@ -208,7 +209,7 @@ Pure functions from `Bool` just pick two values from the target type, one corres
 
 Functions to `Bool` are called predicates. For instance, the Haskell library `Data.Char` is full of predicates like `isAlpha` or `isDigit`. In C++ there is a similar library that defines, among others, `isalpha` and `isdigit`, but these return an `int` rather than a `Boolean`. The actual predicates are defined in `std::ctype` and have the form `ctype::is(alpha, c)`, `ctype::is(digit, c)`, etc.
 
-## Challenges
+## 도전
 
 1. Define a higher-order function (or a function object) `memoize` in your favorite language. This function takes a pure function `f` as an argument and returns a function that behaves almost exactly like `f`, except that it only calls the original function once for every argument, stores the result internally, and subsequently returns this stored result every time it’s called with the same argument. You can tell the memoized function from the original by watching its performance. For instance, try to memoize a function that takes a long time to evaluate. You’ll have to wait for the result the first time you call it, but on subsequent calls, with the same argument, you should get the result immediately.
 2. Try to memoize a function from your standard library that you normally use to produce random numbers. Does it work?
@@ -221,7 +222,7 @@ Functions to `Bool` are called predicates. For instance, the Haskell library `Da
 5. How many different functions are there from `Bool` to `Bool`? Can you implement them all?
 6. Draw a picture of a category whose only objects are the types `Void`, `()` (unit), and `Bool`; with arrows corresponding to all possible functions between these types. Label the arrows with the names of the functions.
 
-## Bibliography
+## 참고 문헌
 
 1. Nils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbons, [Fast and Loose Reasoning is Morally Correct](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf). This paper provides justification for ignoring bottoms in most contexts.
 
