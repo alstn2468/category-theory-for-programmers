@@ -1,38 +1,38 @@
 # 타입과 함수
 
-> This is part of the book Category Theory for Programmers. The previous instalment was [Category: The Essence of Composition](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md). See the [Table of Contents](https://github.com/alstn2468/category-theory-for-programmers#part-1).
+> 이것은 프로그래머를 위한 범주론 책의 일부입니다. 이전 편은 [범주: 합성의 본질](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md)이었습니다. [목차](https://github.com/alstn2468/category-theory-for-programmers#part-1)를 확인하세요.
 
-The category of types and functions plays an important role in programming, so let’s talk about what types are and why we need them.
+타입과 함수의 범주는 프로그래밍에서 중요한 역할을 하므로 타입이 무엇이며 왜 필요한지 이야기해 보겠습니다.
 
-## Who Needs Types?
+## 누가 타입을 필요로 하나요?
 
-There seems to be some controversy about the advantages of static vs. dynamic and strong vs. weak typing. Let me illustrate these choices with a thought experiment. Imagine millions of monkeys at computer keyboards happily hitting random keys, producing programs, compiling, and running them.
+정적 타입과 동적 타입, 강타입과 약타입의 장점에 대해 약간의 논란이 있는 것 같습니다. 사고 실험을 통해 이런 선택을 설명하겠습니다. 컴퓨터 키보드에 있는 수백만 마리의 원숭이가 행복하게 임의의 키를 누르고 프로그램을 만들고 컴파일해 실행한다고 상상해 보세요.
 
 <div align='center'>
   <img src='../images/part-1/img_1329.jpeg' height='200'>
 </div>
 
-With machine language, any combination of bytes produced by monkeys would be accepted and run. But with higher level languages, we do appreciate the fact that a compiler is able to detect lexical and grammatical errors. Lots of monkeys will go without bananas, but the remaining programs will have a better chance of being useful. Type checking provides yet another barrier against nonsensical programs. Moreover, whereas in a dynamically typed language, type mismatches would be discovered at runtime, in strongly typed statically checked languages type mismatches are discovered at compile time, eliminating lots of incorrect programs before they have a chance to run.
+기계어를 사용한다면 원숭이가 생성한 모든 바이트 조합이 허용되고 실행됩니다. 그러나 고급 언어에서는 컴파일러가 어휘 및 문법 오류를 감지할 수 있다는 사실에 감사할 수 있습니다. 많은 원숭이가 바나나 없이 갈 것이지만(_Lots of monkeys will go without bananas_) 나머지 프로그램은 유용할 가능성이 더 큽니다. 타입 검사는 무의미한 프로그램에 대한 또 다른 방어막을 제공합니다. 게다가, 동적으로 타입이 지정된 언어에서는 타입 불일치가 런타임에서 발견되는 반면, 강력하게 타입이 지정된 정적 타입언어에서는 타입 불일치가 컴파일할 때 발견되어 실행할 기회가 있기 전에 많은 잘못된 프로그램을 제거합니다.
 
-So the question is, do we want to make monkeys happy, or do we want to produce correct programs?
+따라서 문제는 원숭이를 행복하게 만들고 싶은가요 아니면 올바른 프로그램을 만들고 싶은가요?
 
-The usual goal in the typing monkeys thought experiment is the production of the complete works of Shakespeare. Having a spell checker and a grammar checker in the loop would drastically increase the odds. The analog of a type checker would go even further by making sure that, once Romeo is declared a human being, he doesn’t sprout leaves or trap photons in his powerful gravitational field.
+타이핑하는 원숭이 사고 실험의 일반적인 목표는 셰익스피어의 전체 작품을 생산하는 것입니다. 반복문에 맞춤법 검사기와 문법 검사기가 있으면 확률이 크게 높아집니다. 아날로그 타입 검사기는 로미오가 사람으로 선언되면 그의 강한 중력장에서 잎을 돋우거나 광자를 가두지 않도록 함으로써 훨씬 더 나아갑니다. (_컴파일 오류로 불가능한 것이 실행되는 일이 없도록 한다는 의미로 해석됨_)
 
-## Types Are About Composability
+## 합성 가능성에 관한 타입
 
-Category theory is about composing arrows. But not any two arrows can be composed. The target object of one arrow must be the same as the source object of the next arrow. In programming we pass the results on one function to another. The program will not work if the target function is not able to correctly interpret the data produced by the source function. The two ends must fit for the composition to work. The stronger the type system of the language, the better this match can be described and mechanically verified.
+범주론은 화살표를 합성하는 것입니다. 그러나 두 개의 화살표는 합성할 수 없습니다. 한 화살표의 대상 객체는 다음 화살표의 원본 객체와 같아야 합니다. 프로그래밍에서 우리는 한 함수의 결과를 다른 함수로 전달합니다. 대상 함수가 출처 함수에서 생성된 데이터를 올바르게 해석할 수 없는 경우 프로그램이 동작하지 않습니다. 합성이 동작하려면 두 끝이 맞아야 합니다. 언어의 타입 시스템이 강할수록 이 일치를 더 잘 설명하고 기계적으로 확인할 수 있습니다.
 
-The only serious argument I hear against strong static type checking is that it might eliminate some programs that are semantically correct. In practice, this happens extremely rarely and, in any case, every language provides some kind of a backdoor to bypass the type system when that’s really necessary. Even Haskell has `unsafeCoerce`. But such devices should be used judiciously. Franz Kafka’s character, Gregor Samsa, breaks the type system when he metamorphoses into a giant bug, and we all know how it ends.
+강력한 정적 타입 검사에 대해 제가 들은 유일한 진지한 주장은 의미상 올바른 일부 프로그램을 제거할 수 있다는 것입니다. 실제로 이건 매우 드물게 발생하며 어떤 경우에도 모든 언어는 실제로 필요할 때 타입 시스템을 우회할 수 있는 일종의 백도어를 제공합니다. Haskell에도 `unsafeCoerce`가 있습니다. 그러나 그 기능은 신중하게 사용해야 합니다. Franz Kafka의 캐릭터인 Gregor Samsa는 거대한 버그로 변신할 때 타입 시스템을 깨고 우리는 그것이 어떻게 끝나는지 알고 있습니다.
 
-Another argument I hear a lot is that dealing with types imposes too much burden on the programmer. I could sympathize with this sentiment after having to write a few declarations of iterators in C++ myself, except that there is a technology called type inference that lets the compiler deduce most of the types from the context in which they are used. In C++, you can now declare a variable `auto` and let the compiler figure out its type.
+제가 많이 듣는 또 다른 주장은 타입을 다루는 것이 프로그래머에게 너무 많은 부담을 준다는 것입니다. 컴파일러가 사용되는 문맥에서 대부분의 타입을 추론할 수 있도록 하는 타입 추론이라는 기술이 있다는 점을 제외하고는 C++로 반복자에 대한 몇 가지 선언을 직접 작성해야 했기 때문에 이 감정에 공감할 수 있었습니다. 이제 C++에서는 `auto` 변수를 선언하고 컴파일러가 해당 타입을 파악하도록 할 수 있습니다.
 
-In Haskell, except on rare occasions, type annotations are purely optional. Programmers tend to use them anyway, because they can tell a lot about the semantics of code, and they make compilation errors easier to understand. It’s a common practice in Haskell to start a project by designing the types. Later, type annotations drive the implementation and become compiler-enforced comments.
+Haskell에서는 드문 경우를 제외하고 타입 어노테이션은 선택 사항입니다. 프로그래머는 코드의 의미에 대해 많은 것을 알 수 있고 컴파일 오류를 더 쉽게 이해할 수 있기 때문에 어쨌든 사용하는 경향이 있습니다. 타입을 설계해 프로젝트를 시작하는 것은 Haskell의 일반적인 관행입니다. 나중에 타입 어노테이션이 구현을 주도하고 컴파일러에 의한 주석이 됩니다.
 
-Strong static typing is often used as an excuse for not testing the code. You may sometimes hear Haskell programmers saying, “If it compiles, it must be correct.” Of course, there is no guarantee that a type-correct program is correct in the sense of producing the right output. The result of this cavalier attitude is that in several studies Haskell didn’t come as strongly ahead of the pack in code quality as one would expect. It seems that, in the commercial setting, the pressure to fix bugs is applied only up to a certain quality level, which has everything to do with the economics of software development and the tolerance of the end user, and very little to do with the programming language or methodology. A better criterion would be to measure how many projects fall behind schedule or are delivered with drastically reduced functionality.
+강력한 정적 타입은 종종 코드를 테스트하지 않는 핑계로 사용됩니다. 때때로 Haskell 프로그래머가 "컴파일이 됐으니, 이건 정확해."라고 말하는 것을 들을 수 있습니다. 물론 올바른 출력을 생성한다는 의미에서 타입을 수정하는 프로그램이 정확하다는 보장은 없습니다. 이런 무심한 태도의 결과는 여러 연구에서 Haskell이 예상했던 것만큼 코드 품질에서 앞서지 못했다는 것입니다. 상업적 환경에서 버그 수정에 대한 압력은 소프트웨어 개발의 경제성 및 최종 사용자의 관용과 모두 관계가 있고 프로그래밍 언어나 방법론과는 거의 관계가 없는 특정 품질 수준까지만 적용되는 것으로 보입니다. 더 나은 기준은 얼마나 많은 프로젝트가 일정보다 늦어지거나 기능이 크게 저하되어 제공되는지 측정하는 것입니다.
 
-As for the argument that unit testing can replace strong typing, consider the common refactoring practice in strongly typed languages: changing the type of an argument of a particular function. In a strongly typed language, it’s enough to modify the declaration of that function and then fix all the build breaks. In a weakly typed language, the fact that a function now expects different data cannot be propagated to call sites. Unit testing may catch some of the mismatches, but testing is almost always a probabilistic rather than a deterministic process. Testing is a poor substitute for proof.
+단위 테스트가 강력한 타입을 대체할 수 있다는 주장에 대해 강타입 언어의 일반적인 리팩토링 방법(특정 함수의 인자 타입 변경)을 고려할 수 있습니다. 강타입 언어에서는 해당 함수의 선언을 수정한 다음 모든 빌드가 깨지는 곳을 수정하는 것으로 충분합니다. 약타입 언어에서는 함수가 이제 다른 데이터를 기대한다는 사실을 호출부로 전파할 수 없습니다. 단위 테스트는 일부 불일치를 파악할 수 있지만 테스트는 항상 결정론적 프로세스라기보다는 확률론적 프로세스입니다. 테스트는 증명을 대신할 수 없습니다.
 
-## What Are Types?
+## 타입이란 무엇일까요?
 
 The simplest intuition for types is that they are sets of values. The type `Bool` (remember, concrete types start with a capital letter in Haskell) is a two-element set of `True` and `False`. Type `Char` is a set of all Unicode characters like `'a'` or `'ą'`.
 
