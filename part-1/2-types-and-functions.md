@@ -117,84 +117,85 @@ int fact(int n) {
 
 ## 순수 함수와 비순수 함수
 
-The things we call functions in C++ or any other imperative language, are not the same things mathematicians call functions. A mathematical function is just a mapping of values to values.
+우리가 C++나 다른 명령형 언어에서 함수라고 부르는 것은 수학자들이 함수라고 부르는 것과 다릅니다. 수학 함수는 값에 대한 갑의 대응일 뿐입니다.
 
-We can implement a mathematical function in a programming language: Such a function, given an input value will calculate the output value. A function to produce a square of a number will probably multiply the input value by itself. It will do it every time it’s called, and it’s guaranteed to produce the same output every time it’s called with the same input. The square of a number doesn’t change with the phases of the Moon.
+입력값이 주어지면 출력값을 계산하도록 프로그래밍 언어로 수학 함수를 구현할 수 있습니다. 숫자의 제곱을 생성하는 함수는 아마도 입력값을 자체적으로 곱할 것입니다. 함수가 호출될 때마다 수행되며 동일한 입력으로 호출될 때마다 동일한 출력을 반환하도록 보장됩니다. 숫자의 제곱은 달의 위상에 따라 변하지 않습니다.
 
-Also, calculating the square of a number should not have a side effect of dispensing a tasty treat for your dog. A “function” that does that cannot be easily modelled as a mathematical function.
+또한 숫자의 제곱을 계산하는 것은 강아지에게 맛있는 간식을 나누어주는 부작용이 있어서는 안 됩니다. 그렇게 동작하는 "함수"는 수학 함수로 쉽게 모델링 될 수 없습니다.
 
-In programming languages, functions that always produce the same result given the same input and have no side effects are called pure functions. In a pure functional language like Haskell all functions are pure. Because of that, it’s easier to give these languages denotational semantics and model them using category theory. As for other languages, it’s always possible to restrict yourself to a pure subset, or reason about side effects separately. Later we’ll see how monads let us model all kinds of effects using only pure functions. So we really don’t lose anything by restricting ourselves to mathematical functions.
+프로그래밍 언어에서 동일한 입력에 대해 항상 동일한 결과를 생성하고 부작용 없는 함수를 순수함수라고 합니다. Haskell과 같은 순수 함수형 언어에서는 모든 함수가 순수함수입니다. 그 때문에 순수 함수형 언어에 표기 의미를 부여하고 범주론을 사용해 모델링하는 것이 더 쉽습니다. 다른 언어의 경우, 항상 자신을 순수한 부분집합으로 제한하거나 부작용에 대해 따로 추론하는 것이 가능하다. 나중에 모나드가 순수함수만을 사용하여 모든 종류의 효과를 모델링하는 방법을 볼 것입니다. 따라서 수학적 기능으로 자신을 제한함으로써 아무것도 잃지 않습니다.
 
 ## 타입의 예시
 
-Once you realize that types are sets, you can think of some rather exotic types. For instance, what’s the type corresponding to an empty set? No, it’s not C++ `void`, although this type is called `Void` in Haskell. It’s a type that’s not inhabited by any values. You can define a function that takes `Void`, but you can never call it. To call it, you would have to provide a value of the type `Void`, and there just aren’t any. As for what this function can return, there are no restrictions whatsoever. It can return any type (although it never will, because it can’t be called). In other words it’s a function that’s polymorphic in the return type. Haskellers have a name for it:
+타입이 집합이라는 것을 알게 되면 다소 이국적인 타입을 생각할 수 있습니다. 예를 들어, 빈 집합에 해당하는 타입은 무엇일까요? Haskell에서는 이 타입을 `Void`라고 하지만 C++의 `void`는 아닙니다. 어떤 값에도 속하지 않는 타입입니다. `Void`를 받는 함수를 정의할 수 있지만 호출할 수는 없습니다. 그것을 호출하려면 `Void` 타입의 값을 제공해야 하며 그 값은 없습니다. 이 함수가 반환할 수 있는 항목에 대해서는 제한이 없습니다. 모든 타입을 반환할 수 있습니다. 하지만 이 함수는 호출할 수 없기 때문에 절대 반환하지 않습니다. 즉, 반환 타입에서 다형성인 함수입니다. Haskll에는 아래와 같은 이름이 있습니다.
 
 ```haskell
 absurd :: Void -> a
 ```
 
-(Remember, `a` is a type variable that can stand for any type.) The name is not coincidental. There is deeper interpretation of types and functions in terms of logic called the Curry-Howard isomorphism. The type `Void` represents falsity, and the type of the function `absurd` corresponds to the statement that from falsity follows anything, as in the Latin adage “ex falso sequitur quodlibet.”
+`a`는 모든 타입을 나타낼 수 있는 타입 변수임을 기억하세요. 이름은 우연이 아닙니다. Curry-Howard isomorphism이라는 논리 측면에서 타입과 함수에 대한 더 깊은 해석이 있습니다. `Void` 타입은 거짓을 나타내고 함수 `absurd`의 타입은 라틴어 속담 “잘못된 전제에서 오는 모든 명제는 참이다(ex falso sequitur quodlibet)”라는 뜻을 갖습니다.
 
-Next is the type that corresponds to a singleton set. It’s a type that has only one possible value. This value just “is.” You might not immediately recognise it as such, but that is the C++ `void`. Think of functions from and to this type. A function from `void` can always be called. If it’s a pure function, it will always return the same result. Here’s an example of such a function:
+다음은 싱글톤 집합에 해당하는 타입입니다. 가능한 값이 하나만 있는 타입입니다. 이 값은 단지 "있다"를 의미합니다. 이것을 바로 인지하지 못할 수 있지만. 이것은 C++의 `void`입니다. `void` 함수는 항상 호출할 수 있습니다. 순수 함수인 경우 항상 동일한 결과를 반환합니다. 아래 코드는 그런 기능을 하는 예시입니다.
 
 ```c
 int f44() { return 44; }
 ```
 
-You might think of this function as taking “nothing”, but as we’ve just seen, a function that takes “nothing” can never be called because there is no value representing “nothing.” So what does this function take? Conceptually, it takes a dummy value of which there is only one instance ever, so we don’t have to mention it explicitly. In Haskell, however, there is a symbol for this value: an empty pair of parentheses, (). So, by a funny coincidence (or is it a coincidence?), the call to a function of void looks the same in C++ and in Haskell. Also, because of the Haskell’s love of terseness, the same symbol () is used for the type, the constructor, and the only value corresponding to a singleton set. So here’s this function in Haskell:
+이 함수가 "nothing"을 받는다고 생각할 수 있지만, 위에서 보았듯이 "nothing"을 표현하는 함수는  "nothing"을 표현하는 값이 없기 때문에 절대 호출할 수 없습니다. 그렇다면 이 함수는 무엇을 받을까요? 개념적으로는 인스턴스가 하나만 있는 더미 값을 받으므로 명시적으로 언급할 필요가 없습니다. 그러나 Haskell에는 이 값에 대한 기호가 빈 괄호 쌍`()`으로 있습니다. 따라서 우연하게도 `void` 함수에 대한 호출은 C++과 Haskell에서 동일하게 보입니다. 또한 Haskell은 간결함을 좋아하기 때문에 타입, 생성자 및 단일 집합에 해당하는 유일한 값에 동일한 기호`()`를 사용합니다. 위의 `f44` 함수는 Haskell에서 아래와 같습니다.
 
 ```haskell
 f44 :: () -> Integer
 f44 () = 44
 ```
 
-The first line declares that `f44` takes the type `()`, pronounced “unit,” into the type `Integer`. The second line defines `f44` by pattern matching the only constructor for unit, namely `()`, and producing the number 44. You call this function by providing the unit value `()`:
+첫 번째 줄은 `f44`가 "unit"으로 발음되는 `()` 타입을 받아 `Integer` 타입으로 반환한다고 선언합니다. 두 번째 줄은 `()`이라는 unit의 생성자와 일치하는 패턴으로 `f44`를 정의하고 숫자 44를 생성합니다. unit 값`()`를 제공해 이 함수를 호출합니다.
 
-```c
+```haskell
 f44 ()
 ```
 
-Notice that every function of unit is equivalent to picking a single element from the target type (here, picking the `Integer` 44). In fact you could think of `f44` as a different representation for the number 44. This is an example of how we can replace explicit mention of elements of a set by talking about functions (arrows) instead. Functions from unit to any type A are in one-to-one correspondence with the elements of that set A.
+unit의 모든 함수는 대상 타입에서 단일 요소를 선택하는 것과 동일합니다. (여기서는 `Integer` 44 선택) 사실 `f44`는 숫자 44에 대한 다른 표현이라 생각할 수 있습니다. 이것은 함수(화살표)에 관해 이야기함으로써 집합의 요소에 대한 명시적 언급을 대체할 방법의 예시입니다. unit에서 모든 타입 A까지의 기능은 해당 집합 A의 요소와 일대일 대응 관계에 있습니다.
 
-What about functions with the `void` return type, or, in Haskell, with the unit return type? In C++ such functions are used for side effects, but we know that these are not real functions in the mathematical sense of the word. A pure function that returns unit does nothing: it discards its argument.
+`void` 반환 타입이 있는 함수 또는 Haskell에서 unit 반환 타입이 있는 함수는 어떤가요? C++에서 이런 함수는 부작용에 사용되지만 우리는 이것이 수학적인 의미에서 실제 함수가 아니라는 것을 알고 있습니다. unit을 반환하는 순수 함수는 아무 일도 하지 않습니다. 인자를 버립니다.
 
-Mathematically, a function from a set A to a singleton set maps every element of A to the single element of that singleton set. For every A there is exactly one such function. Here’s this function for `Integer`:
+수학적으로 집합 A에서 단일 집합으로의 함수는 A의 모든 요소를 단일 집합의 단일 요소에 대응시킵니다. 모든 A에 대해 정확히 하나의 기능이 있습니다. 아래는 `Intger`에 대한 함수입니다.
 
 ```haskell
 fInt :: Integer -> ()
 fInt x = ()
 ```
 
-You give it any integer, and it gives you back a unit. In the spirit of terseness, Haskell lets you use the wildcard pattern, the underscore, for an argument that is discarded. This way you don’t have to invent a name for it. So the above can be rewritten as:
+아무 정수나 전달하면 unit을 반환합니다. 간결함의 정신으로 Haskell에서는 버려지는 인자에 대해 와일드카드 패턴인 `_`을 사용할 수 있습니다. 이렇게 하면 이름을 만들 필요가 없습니다. 따라서 위의 내용은 아래와 같이 다시 작성할 수 있습니다.
 
 ```haskell
 fInt :: Integer -> ()
 fInt _ = ()
 ```
 
-Notice that the implementation of this function not only doesn’t depend on the value passed to it, but it doesn’t even depend on the type of the argument.
+이 함수의 구현은 전달된 값에 의존하지 않을 뿐만 아니라 인자의 타입에도 의존하지 않습니다.
 
-Functions that can be implemented with the same formula for any type are called parametrically polymorphic. You can implement a whole family of such functions with one equation using a type parameter instead of a concrete type. What should we call a polymorphic function from any type to unit type? Of course we’ll call it `unit`:
+모든 타입에 대해 동일한 공식으로 구현할 수 있는 함수를 매개변수 다형성이라고 합니다. 구체적인 타입 대신 타입 매개변수를 사용해 하나의 방정식으로 이런 함수의 전체 종류를 구현할 수 있습니다. 모든 타입에서 unit 타입으로의 다형성 함수는 `unit`이라 부릅니다.
+
 
 ```haskell
 unit :: a -> ()
 unit _ = ()
 ```
 
-In C++ you would write this function as:
+C++에서는 이 함수를 아래와 같이 작성합니다.
 
 ```cpp
 template<class T>
 void unit(T) {}
 ```
 
-Next in the typology of types is a two-element set. In C++ it’s called `bool` and in Haskell, predictably, `Bool`. The difference is that in C++ `bool` is a built-in type, whereas in Haskell it can be defined as follows:
+다음 타입은 2개의 요소 집합입니다. C++에서는 `bool`이라고 하고 Haskell에서는 예상대로 `Bool`이라고 합니다. 차이점은 `C++`에서 `bool`은 내장 타입이지만 Haskell에서는 아래와 같이 정의할 수 있습니다.
 
 ```haskell
 data Bool = True | False
 ```
 
-(The way to read this definition is that `Bool` is either `True` or `False`.) In principle, one should also be able to define a Boolean type in C++ as an enumeration:
+이 정의를 읽는 방법은 `Bool`은 `True` 또는 `False`라는 것입니다. 원칙적으로 C++에서 Boolean을 열거형으로 정의할 수도 있어야 합니다.
 
 ```cpp
 enum bool {
@@ -203,27 +204,27 @@ enum bool {
 };
 ```
 
-but C++ `enum` is secretly an integer. The C++11 “`enum class`” could have been used instead, but then you would have to qualify its values with the class name, as in `bool::true` and `bool::false`, not to mention having to include the appropriate header in every file that uses it.
+그러나 C++의 `enum`은 비밀리에 정수입니다. C++11 "`enum class`"를 대신 사용할 수 있지만, `bool::true`와 `bool::false`와 같이 클래스 이름으로 값을 한정해야 합니다. 또한 사용하는 모든 파일에 적절한 헤더를 포함해야 합니다.
 
-Pure functions from `Bool` just pick two values from the target type, one corresponding to `True` and another to `False`.
+`Bool`의 순수 함수는 대상 타입에서 두 개의 값을 선택합니다. 하나는 `True`에 해당하고 다른 하나는 `False`입니다.
 
-Functions to `Bool` are called predicates. For instance, the Haskell library `Data.Char` is full of predicates like `isAlpha` or `isDigit`. In C++ there is a similar library that defines, among others, `isalpha` and `isdigit`, but these return an `int` rather than a `Boolean`. The actual predicates are defined in `std::ctype` and have the form `ctype::is(alpha, c)`, `ctype::is(digit, c)`, etc.
+`Bool`에 대한 함수를 predicate라고 합니다. 예를 들어 Haskell 라이브러리 `Data.Char`는 `isAlpha` 또는 `isDigit`과 같은 predicate로 가득 차 있습니다. C++에는 `isalpha`와 `isdigit`을 정의하는 유사한 라이브러리가 있지만 `Boolean`이 아닌 `int`를 반환합니다. 실제 predicate는 `std::ctype`으로 정의되며 `ctype::is(alpha, c)`, `ctype::is(digit, c)`  등의 형식을 갖습니다.
 
 ## 도전
 
-1. Define a higher-order function (or a function object) `memoize` in your favorite language. This function takes a pure function `f` as an argument and returns a function that behaves almost exactly like `f`, except that it only calls the original function once for every argument, stores the result internally, and subsequently returns this stored result every time it’s called with the same argument. You can tell the memoized function from the original by watching its performance. For instance, try to memoize a function that takes a long time to evaluate. You’ll have to wait for the result the first time you call it, but on subsequent calls, with the same argument, you should get the result immediately.
-2. Try to memoize a function from your standard library that you normally use to produce random numbers. Does it work?
-3. Most random number generators can be initialized with a seed. Implement a function that takes a seed, calls the random number generator with that seed, and returns the result. Memoize that function. Does it work?
-4. Which of these C++ functions are pure? Try to memoize them and observe what happens when you call them multiple times: memoized and not.
-    1. The factorial function from the example in the text.
+1. 선호하는 언어로 고차 함수 (또는 객체) `memoize`를 정의해보세요. 이 함수는 순수 함수 `f`를 인자로 받고 모든 인자에 대해 원래 함수를 한 번만 호출하고 결과를 내부적으로 저장하고 이후에 이 저장된 결과를 동일한 인자로 호출할 때마다 저장된 결과를 반환하는 점을 제외하고 거의 `f`와 동일하게 작동하는 함수를 반환합니다. 기억된 함수는 성능을 보면 알 수 있습니다. 예를 들어, 평가하는 데 오래 걸리는 함수를 기억하려고 합니다. 처음 호출할 때는 결과를 기다려야 하지만 동일한 인자로 또 호출할 경우 결과를 즉시 가져와야 합니다.
+2. 난수를 생성하는 일반적으로 사용하는 표준 라이브러리 함수를 `memoize`에 사용해보세요. 동작하나요?
+3. 대부분의 난수 생성기는 시드로 초기화할 수 있습니다. 시드를 가져오고 해당 시드로 난수 생성기를 호출하고 결과를 반환하는 함수를 구현해 해당 기능을 기억해보세요. 동작하나요?
+4. 다음 중 순수한 C++ 함수는 무엇인가요? `memoize`에 사용해보고 여러 번 호출할 때 어떤 일이 발생하는지 확인해보세요.
+    1. 본문에 있는 팩토리얼 예제 함수
     2. `std::getchar()`
     3. `bool f() { std::cout << "Hello!" << std::endl; return true; }`
     4. `int f(int x) { static int y = 0; y += x; return y;}`
-5. How many different functions are there from `Bool` to `Bool`? Can you implement them all?
-6. Draw a picture of a category whose only objects are the types `Void`, `()` (unit), and `Bool`; with arrows corresponding to all possible functions between these types. Label the arrows with the names of the functions.
+5. `Bool`에서 `Bool`까지 얼마나 많은 다른 함수가 있나요? 모두 구현할 수 있나요?
+6. 객체가 `Void`. `()` (unit), `Bool` 타입뿐인 범주의 그림을 그려보세요. 이러한 타입 간의 함수에 해당하는 화살표가 있습니다. 함수의 이름으로 화살표에 라벨을 지정해 보세요.
 
 ## 참고 문헌
 
-1. Nils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbons, [Fast and Loose Reasoning is Morally Correct](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf). This paper provides justification for ignoring bottoms in most contexts.
+1. Nils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbons, [빠르고 느린 추론은 도덕적으로 정확합니다. (Fast and Loose Reasoning is Morally Correct)](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf) 이 문서는 대부분의 상황에서 bottom을 무시하는 정당성을 제공합니다.
 
 [⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/3-categories-great-and-small.md)
