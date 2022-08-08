@@ -208,7 +208,7 @@ enum bool {
 
 `Bool`의 순수 함수는 대상 타입에서 두 개의 값을 선택합니다. 하나는 `True`에 해당하고 다른 하나는 `False`입니다.
 
-`Bool`에 대한 함수를 predicate라고 합니다. 예를 들어 Haskell 라이브러리 `Data.Char`는 `isAlpha` 또는 `isDigit`과 같은 predicate로 가득 차 있습니다. C++에는 `isalpha`와 `isdigit`을 정의하는 유사한 라이브러리가 있지만 `Boolean`이 아닌 `int`를 반환합니다. 실제 predicate는 `std::ctype`으로 정의되며 `ctype::is(alpha, c)`, `ctype::is(digit, c)`  등의 형식을 갖습니다.
+`Bool`에 대한 함수를 술어(predicate)라고 합니다. 예를 들어 Haskell 라이브러리 `Data.Char`는 `isAlpha` 또는 `isDigit`과 같은 술어로 가득 차 있습니다. C++에는 `isalpha`와 `isdigit`을 정의하는 유사한 라이브러리가 있지만 `Boolean`이 아닌 `int`를 반환합니다. 실제 술어는 `std::ctype`으로 정의되며 `ctype::is(alpha, c)`, `ctype::is(digit, c)`  등의 형식을 갖습니다.
 
 ## 도전
 
