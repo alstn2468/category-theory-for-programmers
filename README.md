@@ -12,7 +12,7 @@
 1. [범주:합성의 본질](part-1/1-category-the-essence-of-composition.md)
 2. [타입과 함수](part-1/2-types-and-functions.md)
 3. [크고 작은 범주](part-1/3-categories-great-and-small.md)
-4. [Kleisli Categories](part-1/4-kleisli-categories.md)
+4. [Kleisli 범주](part-1/4-kleisli-categories.md)
 5. [Products and Coproducts](part-1/5-products-and-coproducts.md)
 6. [Simple Algebraic Data Types](part-1/6-simple-algebraic-data-types.md)
 7. [Functors](part-1/7-functors.md)
