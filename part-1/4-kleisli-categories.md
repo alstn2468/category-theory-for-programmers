@@ -88,9 +88,7 @@ vector<string> words(string s) {
 }
 ```
 
-<div style='float: right;'>
-  <img src='../images/part-1/piggyback.jpeg' height='150'>
-</div>
+<img src='../images/part-1/piggyback.jpeg' height='120' align='right' />
 
 We want to modify the functions `toUpper` and `toWords` so that they piggyback a message string on top of their regular return values.
 
