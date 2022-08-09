@@ -9,37 +9,37 @@
 
 ### Part 1.
 
-1. [범주:합성의 본질](part-1/1-category-the-essence-of-composition.md)
-2. [타입과 함수](part-1/2-types-and-functions.md)
-3. [크고 작은 범주](part-1/3-categories-great-and-small.md)
-4. [Kleisli 범주](part-1/4-kleisli-categories.md)
-5. [Products and Coproducts](part-1/5-products-and-coproducts.md)
-6. [Simple Algebraic Data Types](part-1/6-simple-algebraic-data-types.md)
-7. [Functors](part-1/7-functors.md)
-8. [Functoriality](part-1/8-functoriality.md)
-9. [Function Types](part-1/9-function-types.md)
+1. [범주:합성의 본질](part-1/01-category-the-essence-of-composition.md)
+2. [타입과 함수](part-1/02-types-and-functions.md)
+3. [크고 작은 범주](part-1/03-categories-great-and-small.md)
+4. [Kleisli 범주](part-1/04-kleisli-categories.md)
+5. [Products and Coproducts](part-1/05-products-and-coproducts.md)
+6. [Simple Algebraic Data Types](part-1/06-simple-algebraic-data-types.md)
+7. [Functors](part-1/07-functors.md)
+8. [Functoriality](part-1/08-functoriality.md)
+9. [Function Types](part-1/09-function-types.md)
 10. [Natural Transformations](part-1/10-natural-transformations.md)
 
 ### Part 2.
 
-1. [Declarative Programming](part-2/1-declarative-programming.md)
-2. [Limits and Colimits](part-2/2-limits-and-colimits.md)
-3. [Free Monoids](part-2/3-free-monoids.md)
-4. [Representable Functors](part-2/4-representable-functors.md)
-5. [The Yoneda Lemma](part-2/5-the-yoneda-lemma.md)
-6. [Yoneda Embedding](part-2/6-yoneda-embedding.md)
+1. [Declarative Programming](part-2/01-declarative-programming.md)
+2. [Limits and Colimits](part-2/02-limits-and-colimits.md)
+3. [Free Monoids](part-2/03-free-monoids.md)
+4. [Representable Functors](part-2/04-representable-functors.md)
+5. [The Yoneda Lemma](part-2/05-the-yoneda-lemma.md)
+6. [Yoneda Embedding](part-2/06-yoneda-embedding.md)
 
 ### Part 3.
 
-1. [It’s All About Morphisms](part-3/1-its-all-about-morphisms.md)
-2. [Adjunctions](part-3/2-adjunctions.md)
-3. [Free/Forgetful Adjunctions](part-3/3-free-forgetful-adjunctions.md)
-4. [Monads: Programmer’s Definition](part-3/4-monads-programmers-definition.md)
-5. [Monads and Effects](part-3/5-monads-and-effects.md)
-6. [Monads Categorically](part-3/6-monads-categorically.md)
-7. [Comonads](part-3/7-comonads.md)
-8. [F-Algebras](part-3/8-f-algebras.md)
-9. [Algebras for Monads](part-3/9-algebras-for-monads.md)
+1. [It’s All About Morphisms](part-3/01-its-all-about-morphisms.md)
+2. [Adjunctions](part-3/02-adjunctions.md)
+3. [Free/Forgetful Adjunctions](part-3/03-free-forgetful-adjunctions.md)
+4. [Monads: Programmer’s Definition](part-3/04-monads-programmers-definition.md)
+5. [Monads and Effects](part-3/05-monads-and-effects.md)
+6. [Monads Categorically](part-3/06-monads-categorically.md)
+7. [Comonads](part-3/07-comonads.md)
+8. [F-Algebras](part-3/08-f-algebras.md)
+9. [Algebras for Monads](part-3/09-algebras-for-monads.md)
 10. [Ends and Coends](part-3/10-ends-and-coends.md)
 11. [Kan Extensions](part-3/11-kan-extensions.md)
 12. [Enriched Categories](part-3/12-enriched-categories.md)
@@ -94,9 +94,7 @@
   </figure>
 </div>
 
-[다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md#%EB%B2%94%EC%A3%BC-%EC%A1%B0%ED%95%A9%EC%9D%98-%EB%B3%B8%EC%A7%88)
-
----
+[다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/01-category-the-essence-of-composition.md#%EB%B2%94%EC%A3%BC-%EC%A1%B0%ED%95%A9%EC%9D%98-%EB%B3%B8%EC%A7%88)
 
 <div align="center">
 

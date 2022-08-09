@@ -168,4 +168,10 @@ id . f == f
 5. 페이스북은 사람을 객체로, 우정을 사상으로 하는 범주인가요?
 6. 방향이 있는 그래프는 언제 범주가 되나요?
 
-[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers#%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%B2%94%EC%A3%BC%EB%A1%A0) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/2-types-and-functions.md)
+[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers#%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%B2%94%EC%A3%BC%EB%A1%A0) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/02-types-and-functions.md)
+
+<div align="center">
+
+<sub><sup>Translated by <a href="https://github.com/alstn2468">@Minsu Kim</a></sup></sub><small>✌</small>
+
+</div>

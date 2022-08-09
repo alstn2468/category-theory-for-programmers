@@ -1,6 +1,6 @@
 # 타입과 함수
 
-> 이것은 프로그래머를 위한 범주론 책의 일부입니다. 이전 편은 [범주: 합성의 본질](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md)이었습니다. [목차](https://github.com/alstn2468/category-theory-for-programmers#part-1)를 확인하세요.
+> 이것은 프로그래머를 위한 범주론 책의 일부입니다. 이전 편은 [범주: 합성의 본질](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/01-category-the-essence-of-composition.md)이었습니다. [목차](https://github.com/alstn2468/category-theory-for-programmers#part-1)를 확인하세요.
 
 타입과 함수의 범주는 프로그래밍에서 중요한 역할을 하므로 타입이 무엇이며 왜 필요한지 이야기해 보겠습니다.
 
@@ -227,4 +227,10 @@ enum bool {
 
 1. Nils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbons, [빠르고 느린 추론은 도덕적으로 정확합니다. (Fast and Loose Reasoning is Morally Correct)](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf) 이 문서는 대부분의 상황에서 bottom을 무시하는 정당성을 제공합니다.
 
-[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/1-category-the-essence-of-composition.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/3-categories-great-and-small.md)
+[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/01-category-the-essence-of-composition.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/03-categories-great-and-small.md)
+
+<div align="center">
+
+<sub><sup>Translated by <a href="https://github.com/alstn2468">@Minsu Kim</a></sup></sub><small>✌</small>
+
+</div>

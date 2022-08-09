@@ -1,6 +1,6 @@
 # Kleisli 범주
 
-> In the previous installment of Categories for Programmers, [Categories Great and Small](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/3-categories-great-and-small), I gave a few examples of simple categories. In this installment we’ll work through a more advanced example. If you’re new to the series, here’s the [Table of Contents](https://github.com/alstn2468/category-theory-for-programmers#part-1).
+> In the previous installment of Categories for Programmers, [Categories Great and Small](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/03-categories-great-and-small), I gave a few examples of simple categories. In this installment we’ll work through a more advanced example. If you’re new to the series, here’s the [Table of Contents](https://github.com/alstn2468/category-theory-for-programmers#part-1).
 
 ## Composition of Logs
 
@@ -335,4 +335,10 @@ Here’s the challenge:
 
 I’m grateful to Eric Niebler for reading the draft and providing the clever implementation of `compose` that uses advanced features of C++14 to drive type inference. I was able to cut the whole section of old fashioned template magic that did the same thing using type traits. Good riddance! I’m also grateful to Gershom Bazerman for useful comments that helped me clarify some important points.
 
-[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/3-categories-great-and-small.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/5-products-and-coproducts.md)
+[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/03-categories-great-and-small.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/05-products-and-coproducts.md)
+
+<div align="center">
+
+<sub><sup>Translated by <a href="https://github.com/alstn2468">@Minsu Kim</a></sup></sub><small>✌</small>
+
+</div>

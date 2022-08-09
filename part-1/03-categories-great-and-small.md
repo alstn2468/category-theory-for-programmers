@@ -1,6 +1,6 @@
 # 크고 작은 범주
 
-> 프로그래머를 위한 범주론의 이전 글에서는 [타입과 함수](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/2-types-and-functions.md)에 관해 이야기했습니다. 시리즈를 처음 접한다면 [목차](https://github.com/alstn2468/category-theory-for-programmers#part-1)를 확인하세요.
+> 프로그래머를 위한 범주론의 이전 글에서는 [타입과 함수](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/02-types-and-functions.md)에 관해 이야기했습니다. 시리즈를 처음 접한다면 [목차](https://github.com/alstn2468/category-theory-for-programmers#part-1)를 확인하세요.
 
 다양한 예시를 통해 범주에 대한 진정한 감상을 얻을 수 있습니다. 범주는 모든 모양과 크기로 제공되며 종종 예상하지 않은 위치에 나타납니다. 아주 간단한 것부터 시작해보겠습니다.
 
@@ -194,4 +194,10 @@ Andrew Sutton과 Bjarne Stroustrup의 최신 제안에 따라 C++ 모노이드 �
 4. AND 연산자를 범주로써 Bool Monoid를 사상과 합성 규칙으로 표현해 보세요.
 5. 3을 더하는 모듈을 범주 Monoid로 표현해 보세요.
 
-[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/2-types-and-functions.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/4-kleisli-categories.md)
+[⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/02-types-and-functions.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/04-kleisli-categories.md)
+
+<div align="center">
+
+<sub><sup>Translated by <a href="https://github.com/alstn2468">@Minsu Kim</a></sup></sub><small>✌</small>
+
+</div>
