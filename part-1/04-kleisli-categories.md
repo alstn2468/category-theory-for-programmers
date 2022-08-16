@@ -126,9 +126,9 @@ Writer<vector<string>> process(string s) {
 
 ## Writer 범주
 
-The idea of embellishing the return types of a bunch of functions in order to piggyback some additional functionality turns out to be very fruitful. We’ll see many more examples of it. The starting point is our regular category of types and functions. We’ll leave the types as objects, but redefine our morphisms to be the embellished functions.
+몇 가지 추가 함수를 피기백 하기 위해 여러 함수의 반환 타입을 꾸미는 아이디어는 매우 유용한 것으로 판명되었습니다. 우리는 그것에 해당하는 더 많은 예시를 보게 될 것입니다. 시작점은 타입과 함수의 일반 범주입니다. 우리는 타입을 객체로 남겨두지만 사상을 장식된 함수로 재정의할 것입니다.
 
-For instance, suppose that we want to embellish the function `isEven` that goes from `int` to `bool`. We turn it into a morphism that is represented by an embellished function. The important point is that this morphism is still considered an arrow between the objects int and bool, even though the embellished function returns a pair:
+예를 들어 `int`에서 `bool`로 가는 `isEven` 함수를 꾸미고 싶다고 가정해봅시다. 우리는 그것을 장식된 함수로 표현되는 사상으로 바꿉니다. 중요한 점은 장식된 함수가 쌍을 반환하더라도 이 사상은 여전히 int 객체와 bool 사이의 화살표로 간주한다는 것입니다.
 
 ```cpp
 pair<bool, string> isEven(int n) {
@@ -136,7 +136,7 @@ pair<bool, string> isEven(int n) {
 }
 ```
 
-By the laws of a category, we should be able to compose this morphism with another morphism that goes from the object bool to whatever. In particular, we should be able to compose it with our earlier negate:
+범주의 법칙에 따라 우리는 이 형태를 객체 bool에서 무엇이든 가는 다른 사상으로 합성할 수 있어야 합니다. 특히, 이전 negate 함수로 합성할 수 있어야 합니다.
 
 ```cpp
 pair<bool, string> negate(bool b) {
@@ -144,7 +144,7 @@ pair<bool, string> negate(bool b) {
 }
 ```
 
-Obviously, we cannot compose these two morphisms the same way we compose regular functions, because of the input/output mismatch. Their composition should look more like this:
+분명히, 우리는 입력/출력 불일치 때문에 이 두 타입을 일반 함수를 합성하는 것과 같은 방식으로 합성할 수 없습니다. 합성은 아래와 같아야 합니다.
 
 ```cpp
 pair<bool, string> isOdd(int n) {
@@ -154,18 +154,18 @@ pair<bool, string> isOdd(int n) {
 }
 ```
 
-So here’s the recipe for the composition of two morphisms in this new category we are constructing:
+그래서 우리가 합성하고 있는 이 새로운 범주에서 두 가지 사상의 합성에 대한 레시피가 있습니다.
 
-1. Execute the embellished function corresponding to the first morphism
-2. Extract the first component of the result pair and pass it to the embellished function corresponding to the second morphism
-3. Concatenate the second component (the string) of of the first result and the second component (the string) of the second result
-4. Return a new pair combining the first component of the final result with the concatenated string.
+1. 첫 번째 사상에 해당하는 꾸며진 함수 실행
+2. 결과 쌍의 첫 번째 컴포넌트를 추출하고 두 번째 사상에 해당하는 꾸며진 함수에 전달합니다.
+3. 첫 번째 결과의 두 번째 컴포넌트(문자열)와 두 번째 결과의 두 번째 컴포넌트(문자열)를 연결합니다.
+4. 최종 결과의 첫 번째 컴포넌트와 연결된 문자열을 결합한 새로운 쌍을 반환합니다.
 
-If we want to abstract this composition as a higher order function in C++, we have to use a template parameterized by three types corresponding to three objects in our category. It should take two embellished functions that are composable according to our rules, and return a third embellished function:
+이 합성을 C++에서 고차 함수로 추상화하려면 범주의 새 객체에 해당하는 세 가지 타입으로 매개 변수화된 템플릿을 사용해야 합니다. 규칙에 따라 합성할 수 있는 두 개의 장식된 함수를 사용하고 세 번째 장식된 함수를 반환해야 합니다.
 
 ```cpp
 template<class A, class B, class C>
-function<Writer<C>(A)> compose(function<Writer<B>(A)> m1, 
+function<Writer<C>(A)> compose(function<Writer<B>(A)> m1,
                                function<Writer<C>(B)> m2)
 {
     return [m1, m2](A x) {
@@ -176,7 +176,7 @@ function<Writer<C>(A)> compose(function<Writer<B>(A)> m1,
 }
 ```
 
-Now we can go back to our earlier example and implement the composition of `toUpper` and `toWords` using this new template:
+이제 이전 예시로 돌아가서 이 새 템플릿을 이용해 `toUpper`와 `toWords`의 합성을 구현할 수 있습니다.
 
 ```cpp
 Writer<vector<string>> process(string s) {
@@ -184,7 +184,7 @@ Writer<vector<string>> process(string s) {
 }
 ```
 
-There is still a lot of noise with the passing of types to the `compose` template. This can be avoided as long as you have a C++14-compliant compiler that supports generalized lambda functions with return type deduction (credit for this code goes to Eric Niebler):
+`compose` 템플릿으로 타입을 전달하는 것은 여전히 복잡합니다. 이는 반환 타입 추론이 있는 일반화된 람다 함수를 지원하는 C++14 호환 컴파일러를 사용하면 피할 수 있습니다. (이 코드에 대한 크레딧은 Eric Niebler에게 있습니다)
 
 ```cpp
 auto const compose = [](auto m1, auto m2) {
@@ -196,7 +196,7 @@ auto const compose = [](auto m1, auto m2) {
 };
 ```
 
-In this new definition, the implementation of `process` simplifies to:
+이 새로운 정의에서 `process`의 구현은 아래와 같이 간단해집니다.
 
 ```cpp
 Writer<vector<string>> process(string s){
@@ -204,13 +204,13 @@ Writer<vector<string>> process(string s){
 }
 ```
 
-But we are not finished yet. We have defined composition in our new category, but what are the identity morphisms? These are not our regular identity functions! They have to be morphisms from type A back to type A, which means they are embellished functions of the form:
+그러나 아직 끝나지 않았습니다. 우리의 새로운 범주에서 합성을 정의했지만, 항등 사상은 무엇인가요? 이것은 우리의 일반적인 항등함수가 아닙니다. 이것들은 A 타입에서 A타입으로의 사상이어야 하며 이는 꾸며진 함수들의 형식을 의미합니다.
 
 ```cpp
 Writer<A> identity(A);
 ```
 
-They have to behave like units with respect to composition. If you look at our definition of composition, you’ll see that an identity morphism should pass its argument without change, and only contribute an empty string to the log:
+이것들은 합성과 관련하여 unit처럼 동작해야 합니다. 합성에 대한 정의를 보면 항등 사상이 변경 없이 인자를 전달하고 로그에 빈 문자열만 제공해야 함을 알 수 있습니다.
 
 ```cpp
 template<class A>
@@ -219,35 +219,35 @@ Writer<A> identity(A x) {
 }
 ```
 
-You can easily convince yourself that the category we have just defined is indeed a legitimate category. In particular, our composition is trivially associative. If you follow what’s happening with the first component of each pair, it’s just a regular function composition, which is associative. The second components are being concatenated, and concatenation is also associative.
+방금 정의한 범주가 실제로 규칙을 따르는 범주임을 쉽게 확신할 수 있습니다. 특히, 우리의 합성은 사소하게 결합성이 있습니다. 각 쌍의 첫 번째 컴포넌트에서 어떤 일이 일어나는지 따라가면 결합할 수 있는 일반 함수의 합성일 뿐입니다. 두 번째 컴포넌트가 연결되었다면 연결 또한 결합입니다.
 
-An astute reader may notice that it would be easy to generalize this construction to any monoid, not just the string monoid. We would use mappend inside `compose` and `mempty` inside `identity` (in place of `+` and `""`). There really is no reason to limit ourselves to logging just strings. A good library writer should be able to identify the bare minimum of constraints that make the library work — here the logging library’s only requirement is that the log have monoidal properties.
+예리한 독자는 이 구조를 문자열 모노이드뿐만 아니라 모든 모노이드로 일반화하는 것이 쉽다는 것을 알 수 있습니다. `compose` 내부에 `+`대신 `mappend`를 사용하고 `identity` 내부에 `""` 대신 `mempty`를 사용할 것입니다. 문자열만 기록하는 것으로 제한할 이유는 없습니다. 좋은 라이브러리 작성자는 라이브러리가 동작하도록 하는 최소한의 제약 조건을 식별할 수 있어야 합니다. 여기서 로깅 라이브러리의 유일한 요구 사항은 로그에 단일 속성이 있어야 한다는 것입니다.
 
-## Writer in Haskell
+## Haskell에서의 Writer
 
-The same thing in Haskell is a little more terse, and we also get a lot more help from the compiler. Let’s start by defining the `Writer` type:
+Haskell로 작성한 동일한 내용은 더 간결하며 컴파일러로부터 더 많은 도움을 받습니다. `Writer` 타입을 정의하는 것으로 시작하겠습니다.
 
 ```haskell
 type Writer a = (a, String)
 ```
 
-Here I’m just defining a type alias, an equivalent of a `typedef` (or `using`) in C++. The type `Writer` is parameterized by a type variable `a` and is equivalent to a pair of `a` and `String`. The syntax for pairs is minimal: just two items in parentheses, separated by a comma.
+여기에서는 C++의 `typedef`(또는 `using`)에 해당하는 타입 별칭을 정의하고 있습니다. `Writer` 타입은 `a` 타입 변수로 매개 변수화되며 `a`와 `String` 쌍과 동일합니다. 쌍에 대한 구문은 쉼표로 구분된 괄호 안에 두 항목만 있으며 문법이 최소화되어있습니다.
 
-Our morphisms are functions from an arbitrary type to some `Writer` type:
+우리의 사상은 임의의 타입에서 일부 `Writer` 타입에 이르는 함수입니다.
 
 ```haskell
 a -> Writer b
 ```
 
-We’ll declare the composition as a funny infix operator, sometimes called the “fish”:
+우리는 합성을 "물고기"라고도 하는 재미있는 중위 연산자로 선언할 것입니다.
 
 ```haskell
 (>=>) :: (a -> Writer b) -> (b -> Writer c) -> (a -> Writer c)
 ```
 
-It’s a function of two arguments, each being a function on its own, and returning a function. The first argument is of the type `(a->Writer b)`, the second is `(b->Writer c)`, and the result is `(a->Writer c)`.
+두 개의 인자를 받는 함수이며, 각각은 자체적으로 함수이고 함수를 반환합니다. 첫 번째 인자는 `(a->Writer b)` 타입이고 두 번째 인자는 `(b->Writer c)`이며 결과는 `(a->Writer c)`입니다.
 
-Here’s the definition of this infix operator — the two arguments `m1` and `m2` appearing on either side of the fishy symbol:
+이 중위 연산자의 정의는 아래와 같습니다. 두 개의 인자 `m1`과 `m2`가 물고기 기호의 양쪽에 표시됩니다.
 
 ```haskell
 m1 >=> m2 = \x ->
@@ -256,22 +256,22 @@ m1 >=> m2 = \x ->
     in (z, s1 ++ s2)
 ```
 
-The result is a lambda function of one argument `x`. The lambda is written as a backslash — think of it as the Greek letter λ with an amputated leg.
+결과는 하나의 인자 `x`의 람다 함수입니다. 람다는 백 슬래시로 작성됩니다. 다리가 절단된 그리스 문자 λ로 생각하세요.
 
-The `let` expression lets you declare auxiliary variables. Here the result of the call to `m1` is pattern matched to a pair of variables `(y, s1)`; and the result of the call to `m2`, with the argument `y` from the first pattern, is matched to `(z, s2)`.
+`let` 표현 식을 사용하면 보조 변수를 선언할 수 있습니다. 여기서 `m1`을 호출한 결과는 `(y, s1)` 변수 쌍의 패턴에 일치됩니다. 첫 번째 패턴의 `y` 인자를 사용해 `m2`를 호출한 결과는 `(z, s2)`와 일치합니다.
 
-It is common in Haskell to pattern match pairs, rather than use accessors, as we did in C++. Other than that there is a pretty straightforward correspondence between the two implementations.
+Haskell에서는 C++에서와 같이 접근자를 사용하는 대신 일치 쌍을 패턴화하는 것이 일반적입니다. 그 외에는 두 구현 사이에 매우 직접적인 대응이 있습니다.
 
-The overall value of the `let` expression is specified in its in clause: here it’s a pair whose first component is `z` and the second component is the concatenation of two strings, `s1++s2`.
+`let` 표현 식의 전체 값은 in 절에 지정되어 있습니다. 여기서 쌍은 첫 번째 컴포넌트가 `z`이고 두 번째 컴포넌트가 두 문자열의 연결인 `s1++s2`입니다.
 
-I will also define the identity morphism for our category, but for reasons that will become clear much later, I will call it `return`.
+또한 우리의 범주에 대한 항등 사상을 정의할 것이지만, 훨씬 나중에 명확해질 이유로 이것을 `return`이라고 부를 것입니다.
 
 ```haskell
 return :: a -> Writer a
 return x = (x, "")
 ```
 
-For completeness, let’s have the Haskell versions of the embellished functions `upCase` and `toWords`:
+완성을 위해 `upCase` 및 `toWords` 함수의 Haskell 버전을 사용하겠습니다.
 
 ```haskell
 upCase :: String -> Writer String
@@ -282,23 +282,25 @@ upCase s = (map toUpper s, "upCase ")
 toWords :: String -> Writer [String]
 toWords s = (words s, "toWords ")
 ```
-The function `map` corresponds to the C++ `transform`. It applies the character function `toUpper` to the string `s`. The auxiliary function `words` is defined in the standard Prelude library.
 
-Finally, the composition of the two functions is accomplished with the help of the fish operator:
+`map` 함수는 C++의 `transform`에 해당합니다. 문자열 `s`에 문자 함수 `toUpper`를 적용합니다. 보조 기능 `words`는 표준 Prelude 라이브러리에 정의되어 있습니다.
+
+마지막으로 두 함수의 합성은 물고기 연산자의 도움으로 수행됩니다.
 
 ```haskell
 process :: String -> Writer [String]
 process = upCase >=> toWords
 ```
 
-## Kleisli Categories
+## Kleisli 범주
 
-You might have guessed that I haven’t invented this category on the spot. It’s an example of the so called Kleisli category — a category based on a monad. We are not ready to discuss monads yet, but I wanted to give you a taste of what they can do. For our limited purposes, a Kleisli category has, as objects, the types of the underlying programming language. Morphisms from type A to type B are functions that go from A to a type derived from B using the particular embellishment. Each Kleisli category defines its own way of composing such morphisms, as well as the identity morphisms with respect to that composition. (Later we’ll see that the imprecise term “embellishment” corresponds to the notion of an endofunctor in a category.)
+여러분들은 제가 그 자리에서 이 범주를 발명하지 않았다고 짐작했을 것입니다. 이것은 모나드를 기반으로 하는 범주인 Kleisli 범주의 예시입니다. 우리는 아직 모나드에 대해 논의할 준비가 되지 않았지만, 모나드가 무엇을 할 수 있는지 맛보고 싶었습니다. 제한된 목적을 위해 Kleisli 범주에는 기본 프로그래밍 언어의 타입이 객체로 있습니다. 타입 A에서 타입 B로의 사상은 특정 꾸밈을 사용해 A에서 B로 파생된 타입으로 이동하는 함수입니다. 각 Kleisli 범주는 그런 사상의 자체적인 합성과 해당 합성에 대한 항등 사상을 정의합니다. (나중에 "꾸밈"이라는 부정확한 용어가 범주의 엔도펑터(endofunctor) 개념에 해당함을 알 수 있습니다)
 
-The particular monad that I used as the basis of the category in this post is called the writer monad and it’s used for logging or tracing the execution of functions. It’s also an example of a more general mechanism for embedding effects in pure computations. You’ve seen previously that we could model programming-language types and functions in the category of sets (disregarding bottoms, as usual). Here we have extended this model to a slightly different category, a category where morphisms are represented by embellished functions, and their composition does more than just pass the output of one function to the input of another. We have one more degree of freedom to play with: the composition itself. It turns out that this is exactly the degree of freedom which makes it possible to give simple denotational semantics to programs that in imperative languages are traditionally implemented using side effects.
+이 글에서 범주의 기초로 사용한 특정 모나드를 Writer 모나드라고 하며 함수의 실행과 기록을 추적하는 데 사용됩니다. 또한 순수 계산에 이펙트를 포함하기 위한 보다 일반적인 방법의 예시이기도 합니다. 이전에 bottom을 무시하면 집합 범주에서 프로그래밍 언어 타입과 함수를 모델링할 수 있음을 보았습니다. 여기에서 우리는 이 모델을 약간 다른 범주로 확장했습니다. 이 범주는 사상이 꾸며진 함수로 표현되고 그 합성은 한 함수의 출력을 다른 함수의 입력으로 전달하는 것 이상을 수행합니다. 우리는 한 가지 더 자유롭게 사용할 수 있습니다. 바로 합성 자체입니다. 이것은 명령형 언어에서 전통적으로 부작용을 사용하여 구현되는 프로그램에 단순한 표기 의미론을 부여하는 것을 가능하게 하는 정확한 자유도입니다.
 
-## Challenge
-A function that is not defined for all possible values of its argument is called a partial function. It’s not really a function in the mathematical sense, so it doesn’t fit the standard categorical mold. It can, however, be represented by a function that returns an embellished type `optional`:
+## 도전
+
+인자의 가능한 모든 값에 대해 정의되지 않은 함수를 부분 함수라고 합니다. 수학적 의미의 함수가 아니므로 표준 범주형 틀에 맞지 않습니다. 그러나 `optional`로 꾸며진 타입을 반환하는 함수로 나타낼 수 있습니다.
 
 ```cpp
 template<class A> class optional {
@@ -312,7 +314,7 @@ public:
 };
 ```
 
-As an example, here’s the implementation of the embellished function `safe_root`:
+예를 들어, 아래는 장식된 함수 `safe_root`의 구현입니다.
 
 ```cpp
 optional<double> safe_root(double x) {
@@ -321,15 +323,15 @@ optional<double> safe_root(double x) {
 }
 ```
 
-Here’s the challenge:
+도전할 것들은 아래와 같습니다.
 
-1. Construct the Kleisli category for partial functions (define composition and identity).
-2. Implement the embellished function `safe_reciprocal` that returns a valid reciprocal of its argument, if it’s different from zero.
-3. Compose `safe_root` and `safe_reciprocal` to implement `safe_root_reciprocal` that calculates `sqrt(1/x)` whenever possible.
+1. 부분 함수에 대한 Kleisli 범주를 구성합니다. (합성 및 항등 정의)
+2. 인자가 0과 다른 경우 인자의 유효한 역수를 반환하는 꾸며진 함수 `safe_reciprocal`을 구현합니다.
+3. `safe_root`와 `safe_reciprocal`을 합성하여 가능할 때마다 `sqrt(1/x)`를 계산하는 `safe_root_reciprocal`을 구현합니다.
 
-## Acknowledgments
+## 감사의 말
 
-I’m grateful to Eric Niebler for reading the draft and providing the clever implementation of `compose` that uses advanced features of C++14 to drive type inference. I was able to cut the whole section of old fashioned template magic that did the same thing using type traits. Good riddance! I’m also grateful to Gershom Bazerman for useful comments that helped me clarify some important points.
+초안을 읽고 C++14의 고급 기능을 사용하여 타입 추론을 유도하는 더 좋은 `compose`의 구현을 제공한 Eric Niebler에게 감사드립니다. 타입 특성(type traits)을 사용하여 동일한 작업을 수행하는 구식 템플릿 마법을 전체적으로 잘라낼 수 있었습니다. 몇 가지 중요한 사항을 명확히 하는 데 도움이 되는 유용한 의견을 주신 Gershom Bazerman에게도 감사드립니다.
 
 [⬅ 뒤로가기](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/03-categories-great-and-small.md) / [다음으로 ➡](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/05-products-and-coproducts.md)
 

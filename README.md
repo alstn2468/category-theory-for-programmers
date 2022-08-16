@@ -13,7 +13,7 @@
 2. [타입과 함수](part-1/02-types-and-functions.md)
 3. [크고 작은 범주](part-1/03-categories-great-and-small.md)
 4. [Kleisli 범주](part-1/04-kleisli-categories.md)
-5. [Products and Coproducts](part-1/05-products-and-coproducts.md)
+5. [Products와 Coproducts](part-1/05-products-and-coproducts.md)
 6. [Simple Algebraic Data Types](part-1/06-simple-algebraic-data-types.md)
 7. [Functors](part-1/07-functors.md)
 8. [Functoriality](part-1/08-functoriality.md)
