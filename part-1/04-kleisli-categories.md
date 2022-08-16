@@ -1,10 +1,10 @@
 # Kleisli 범주
 
-> In the previous installment of Categories for Programmers, [Categories Great and Small](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/03-categories-great-and-small), I gave a few examples of simple categories. In this installment we’ll work through a more advanced example. If you’re new to the series, here’s the [Table of Contents](https://github.com/alstn2468/category-theory-for-programmers#part-1).
+> 프로그래머를 위한 범주론의 이전 몇 개의 글에서 [크고 작은 범주](https://github.com/alstn2468/category-theory-for-programmers/blob/main/part-1/03-categories-great-and-small)의 몇 가지 예시를 제시했습니다. 이 글에서는 더 고급 예시를 통해 설명을 진행할 것입니다. 이 시리즈를 처음 접하는 경우 [목차](https://github.com/alstn2468/category-theory-for-programmers#part-1)를 확인하세요.
 
-## Composition of Logs
+## 로그 합성
 
-You’ve seen how to model types and pure functions as a category. I also mentioned that there is a way to model side effects, or non-pure functions, in category theory. Let’s have a look at one such example: functions that log or trace their execution. Something that, in an imperative language, would likely be implemented by mutating some global state, as in:
+타입과 순수 함수를 범주로 모델링 하는 방법을 살펴보았습니다. 또한 범주론에서 부작용, 즉 순수하지 않은 함수를 모델링하는 방법이 있다고 언급했습니다. 실행을 기록하거나 추적하는 함수라는 예시를 살펴보겠습니다. 명령형 언어에서는 아래와 같이 전역 상태를 변경하여 구현될 가능성이 있습니다.
 
 ```cpp
 string logger;
@@ -15,11 +15,11 @@ bool negate(bool b) {
 }
 ```
 
-You know that this is not a pure function, because its memoized version would fail to produce a log. This function has side effects.
+이 기억된 버전의 함수는 로그를 생성하지 못하기 때문에 순수 함수가 아니라는 것을 알고 있습니다. 이 함수에는 부작용가 있습니다.
 
-In modern programming, we try to stay away from global mutable state as much as possible — if only because of the complications of concurrency. And you would never put code like this in a library.
+현대 프로그래밍에서 우리는 가능한 한 변경 가능한 전역 상태를 피하려고 노력합니다. 동시성의 복잡성 때문입니다. 그리고 라이브러리에 이런 코드를 넣지 않을 것입니다.
 
-Fortunately for us, it’s possible to make this function pure. You just have to pass the log explicitly, in and out. Let’s do that by adding a string argument, and pairing regular output with a string that contains the updated log:
+다행히도 이 함수를 순수하게 만드는 것이 가능합니다. 로그를 명시적으로 안팎으로 전달하기만 하면 됩니다. 문자열 인자를 추가하고 업데이트된 로그가 포함된 문자열과 일반 출력을 쌍으로 만들어 보겠습니다.
 
 ```cpp
 pair<bool, string> negate(bool b, string logger) {
@@ -27,23 +27,18 @@ pair<bool, string> negate(bool b, string logger) {
 }
 ```
 
-This function is pure, it has no side effects, it returns the same pair every time it’s called with the same arguments, and it can be memoized if necessary. However, considering the cumulative nature of the log, you’d have to memoize all possible histories that can lead to a given call. There would be a separate memo entry for:
+이 함수는 순수하고 부작용이 없으며 동일한 인자로 호출될 때마다 동일한 쌍을 반환하며 필요한 경우 기억할 수 있습니다. 그러나 로그의 누적되는 특성을 고려할 때 주어진 호출로 이어질 수 있는 모든 가능한 로그들을 기억해야 합니다. 아래에 각각 기억되는 항목이 있습니다.
 
 ```cpp
 negate(true, "It was the best of times. ");
-```
-
-and
-
-```cpp
+// 또는
 negate(true, "It was the worst of times. ");
+// 등등
 ```
 
-and so on.
+또한 라이브러리 기능을 위한 아주 좋은 인터페이스도 아닙니다. 호출자는 반환 타입의 문자열을 자유롭게 무시할 수 있으므로 큰 부담은 아닙니다. 그러나 입력으로 문자열을 전달해야 하므로 불편할 수 있습니다.
 
-It’s also not a very good interface for a library function. The callers are free to ignore the string in the return type, so that’s not a huge burden; but they are forced to pass a string as input, which might be inconvenient.
-
-Is there a way to do the same thing less intrusively? Is there a way to separate concerns? In this simple example, the main purpose of the function negate is to turn one Boolean into another. The logging is secondary. Granted, the message that is logged is specific to the function, but the task of aggregating the messages into one continuous log is a separate concern. We still want the function to produce a string, but we’d like to unburden it from producing a log. So here’s the compromise solution:
+같은 일을 덜 방해가 되는 방법으로 관심사를 분리하는 방법이 있을까요? 이 간단한 예시에서 negate 함수의 목적은 하나의 Boolena을 다른 것으로 바꾸는 것입니다. 로그를 남기는 것은 2차적입니다. 물론 기록되는 메시지는 함수에 따라 다르지만 메시지를 하나의 연속 로그로 집계하는 작업은 별개의 문제입니다. 우리는 여전히 함수가 문자열을 생성하기를 원하지만, 로그 생성에서 부담을 덜어주고 싶습니다. 타협할 수 있는 해결책은 아래와 같습니다.
 
 ```cpp
 pair<bool, string> negate(bool b) {
@@ -51,20 +46,20 @@ pair<bool, string> negate(bool b) {
 }
 ```
 
-The idea is that the log will be aggregated between function calls.
+이 아이디어는 로그가 함수 호출 간에 수집된다는 것입니다.
 
-To see how this can be done, let’s switch to a slightly more realistic example. We have one function from string to string that turns lower case characters to upper case:
+이것이 어떻게 가능한지 보기 위해 조금 더 현실적인 예시로 바꾸어 보겠습니다. 문자열에서 소문자를 대문자로 바꾸는 하나의 함수가 있습니다.
 
 ```cpp
 string toUpper(string s) {
     string result;
-    int (*toupperp)(int) = &toupper; // toupper is overloaded
+    int (*toupperp)(int) = &toupper; // toupper는 overload 되었습니다.
     transform(begin(s), end(s), back_inserter(result), toupperp);
     return result;
 }
 ```
 
-and another that splits a string into a vector of strings, breaking it on whitespace boundaries:
+다른 하나는 문자열을 공백 경계로 문자열 벡터로 나눕니다.
 
 ```cpp
 vector<string> toWords(string s) {
@@ -72,7 +67,7 @@ vector<string> toWords(string s) {
 }
 ```
 
-The actual work is done in the auxiliary function words:
+실제 작업은 보조 함수 words에서 수행됩니다.
 
 ```cpp
 vector<string> words(string s) {
@@ -90,16 +85,17 @@ vector<string> words(string s) {
 
 <img src='../images/part-1/piggyback.jpeg' height='120' align='right' />
 
-We want to modify the functions `toUpper` and `toWords` so that they piggyback a message string on top of their regular return values.
+`toUpper` 및 `toWords` 함수를 수정해 일반 반환 값 위에 메시지 문자열을 피기백(piggyback) 하도록 합니다.
 
-We will “embellish” the return values of these functions. Let’s do it in a generic way by defining a template `Writer` that encapsulates a pair whose first component is a value of arbitrary type A and the second component is a string:
+우리는 이런 함수의 반환 값을 "장식"(embellish)할 것입니다. 첫 번째 컴포넌트가 임의 타입 A의 값이고 두 번째 구성 요소가 문자열인 쌍을 캡슐화하는 템플릿 `Writer`를 정의해 일반적인 방식으로 처리해 보겠습니다.
+
 
 ```cpp
 template<class A>
 using Writer = pair<A, string>;
 ```
 
-Here are the embellished functions:
+아래는 장식된 함수입니다.
 
 ```cpp
 Writer<string> toUpper(string s) {
@@ -114,7 +110,7 @@ Writer<vector<string>> toWords(string s) {
 }
 ```
 
-We want to compose these two functions into another embellished function that uppercases a string and splits it into words, all the while producing a log of those actions. Here’s how we may do it:
+이 두 함수를 문자열을 대문자로 바꾸고 이를 단어로 나누는 또 다른 장식된 함수로 합성하고 그 작업의 로그를 생성하기를 원합니다. 방법은 아래와 같습니다.
 
 ```cpp
 Writer<vector<string>> process(string s) {
@@ -124,11 +120,11 @@ Writer<vector<string>> process(string s) {
 }
 ```
 
-We have accomplished our goal: The aggregation of the log is no longer the concern of the individual functions. They produce their own messages, which are then, externally, concatenated into a larger log.
+우리는 목표를 달성했습니다. 로그 수집은 더 이상 개별 함수의 문제가 아닙니다. 이것들은 자체적인 메시지를 생성한 다음 외부에서 더 큰 로그로 연결합니다.
 
-Now imagine a whole program written in this style. It’s a nightmare of repetitive, error-prone code. But we are programmers. We know how to deal with repetitive code: we abstract it! This is, however, not your run of the mill abstraction — we have to abstract function composition itself. But composition is the essence of category theory, so before we write more code, let’s analyze the problem from the categorical point of view.
+이제 이 스타일로 작성된 전체 프로그램을 상상해 보세요. 반복적이고 오류가 발생하기 쉬운 코드의 악몽입니다. 하지만 우리는 프로그래머입니다. 우리는 반복적인 코드를 처리하는 방법을 알고 있습니다. 우리는 이것들의 함수 합성 자체를 추상화해야 합니다. 그러나 합성은 범주론의 본질이므로 더 많은 코드를 작성하기 전에 범주 관점에서 문제를 분석해 보겠습니다.
 
-## The Writer Category
+## Writer 범주
 
 The idea of embellishing the return types of a bunch of functions in order to piggyback some additional functionality turns out to be very fruitful. We’ll see many more examples of it. The starting point is our regular category of types and functions. We’ll leave the types as objects, but redefine our morphisms to be the embellished functions.
 
